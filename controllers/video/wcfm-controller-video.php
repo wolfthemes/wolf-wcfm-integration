@@ -186,10 +186,10 @@ class WCFM_Video_Controller {
 				
 				if( $wcfm_video_single->post_status == 'publish' ) {
 					$actions .= ( apply_filters( 'wcfm_is_allow_edit_video', true ) ) ? '<a class="wcfm-action-icon" href="' . get_wcfm_video_manage_url( $wcfm_video_single->ID ) . '"><span class="fa fa-edit text_tip" data-tip="' . esc_attr__( 'Edit', 'wcfm-cpt' ) . '"></span></a>' : '';
-					$actions .= ( apply_filters( 'wcfm_is_allow_delete_video', true ) ) ? '<a class="wcfm-action-icon wcfm_video_delete" href="#" data-videoid="' . $wcfm_video_single->ID . '"><span class="fa fa-trash-o text_tip" data-tip="' . esc_attr__( 'Delete', 'wcfm-cpt' ) . '"></span></a>' : '';
+					$actions .= ( apply_filters( 'wcfm_is_allow_delete_video', true ) ) ? '<a class="wcfm-action-icon wcfm_video_delete" href="#" data-videoid="' . $wcfm_video_single->ID . '"><span class="fa fa-trash-alt text_tip" data-tip="' . esc_attr__( 'Delete', 'wcfm-cpt' ) . '"></span></a>' : '';
 				} else {
 					$actions .= ( apply_filters( 'wcfm_is_allow_edit_video', true ) ) ? '<a class="wcfm-action-icon" href="' . get_wcfm_video_manage_url( $wcfm_video_single->ID ) . '"><span class="fa fa-edit text_tip" data-tip="' . esc_attr__( 'Edit', 'wcfm-cpt' ) . '"></span></a>' : '';
-					$actions .= ( apply_filters( 'wcfm_is_allow_delete_video', true ) ) ? '<a class="wcfm_video_delete wcfm-action-icon" href="#" data-videoid="' . $wcfm_video_single->ID . '"><span class="fa fa-trash-o text_tip" data-tip="' . esc_attr__( 'Delete', 'wcfm-cpt' ) . '"></span></a>' : '';
+					$actions .= ( apply_filters( 'wcfm_is_allow_delete_video', true ) ) ? '<a class="wcfm_video_delete wcfm-action-icon" href="#" data-videoid="' . $wcfm_video_single->ID . '"><span class="fa fa-trash-alt text_tip" data-tip="' . esc_attr__( 'Delete', 'wcfm-cpt' ) . '"></span></a>' : '';
 				}
 				
 				$wcfm_video_json_arr[$index][] =  apply_filters ( 'wcfm_video_actions',  $actions, $wcfm_video_single );

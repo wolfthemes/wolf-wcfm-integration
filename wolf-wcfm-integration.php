@@ -24,6 +24,8 @@ class WCFM_Video_Module {
 
         add_action( 'wcfm_load_scripts', array( $this, 'load_scripts' ), 30 );
 
+        add_action( 'wcfm_load_styles', array( &$this, 'load_styles' ), 30 );
+
         add_action( 'wcfm_load_views', array( $this, 'load_views' ), 30 );
 
         add_action( 'after_wcfm_ajax_controller', array( $this, 'ajax_controller' ), 30 );
@@ -88,6 +90,27 @@ class WCFM_Video_Module {
 		$menus = array_merge( $menus, $cpt1_menus );
   	    return $menus;
     }
+
+    /**
+     * Load styles
+     *
+     * @param [type] $end_point
+     * @return void
+     */
+    public function load_styles( $end_point ) {
+	  global $WCFM, $WCFMcpt;
+		
+	  switch( $end_point ) {
+	    case 'wcfm-' . WCFM_VIDEO_CPT_SLUG:
+	    	wp_enqueue_style( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_css',  $this->plugin_url . 'css/' . WCFM_VIDEO_CPT_SLUG . '/wcfm-style-' . WCFM_VIDEO_CPT_SLUG . '.css', array(), $WCFM->version );
+		  break;
+		  
+		  case 'wcfm-' . WCFM_VIDEO_CPT_SLUG . '-manage':
+		  	wp_enqueue_style( 'collapsible_css',  $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
+	    	wp_enqueue_style( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_css',  $this->plugin_url . 'css/' . WCFM_VIDEO_CPT_SLUG . '/wcfm-style-' . WCFM_VIDEO_CPT_SLUG . '-manage.css', array(), $WCFM->version );
+		  break;
+	  }
+	}
 
     /**
      * Load Scripts
@@ -196,9 +219,9 @@ class WCFM_Video_Module {
 
 new WCFM_Video_Module();
 
-add_action('admin_enqueue_scripts', function() {
-    wp_enqueue_media();
-});
+// add_action('admin_enqueue_scripts', function() {
+//     wp_enqueue_media();
+// });
 
 if(!function_exists('get_wcfm_video_url')) {
 	function get_wcfm_video_url( $video_status = '' ) {
