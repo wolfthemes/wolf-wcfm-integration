@@ -2,8 +2,6 @@ $video_cat = '';
 $video_vendor = '';
 
 jQuery(document).ready(function($) {
-
-    //console.log( $('#wcfm-video') );
 	
 	$wcfm_video_table = $('#wcfm-video').DataTable( {
 		"processing": true,
@@ -12,36 +10,41 @@ jQuery(document).ready(function($) {
 		"pageLength": dataTables_config.pageLength,
 		"language"  : $.parseJSON(dataTables_language),
 		"columns"   : [
-      { responsivePriority: 2 },
-					{ responsivePriority: 1 },
-					{ responsivePriority: 3 },
-					{ responsivePriority: 4 },
-					{ responsivePriority: 3 },
-					{ responsivePriority: 2 },
-					{ responsivePriority: 5 },
-					{ responsivePriority: 3 },
-			],
-"columnDefs": [ { "targets": 0, "orderable" : false }, 
-				  { "targets": 1, "orderable" : false }, 
-					{ "targets": 2, "orderable" : false }, 
-					{ "targets": 3, "orderable" : false }, 
-					{ "targets": 4, "orderable" : false }, 
-					{ "targets": 5, "orderable" : false },
-					{ "targets": 6, "orderable" : false },
-					{ "targets": 7, "orderable" : false },
-				],
+            { responsivePriority: 2 },
+            { responsivePriority: 1 },
+            { responsivePriority: 3 },
+            { responsivePriority: 4 },
+            { responsivePriority: 3 },
+            { responsivePriority: 2 },
+            { responsivePriority: 5 },
+            { responsivePriority: 3 },
+        ],
+        "columnDefs": [ { "targets": 0, "orderable" : false }, 
+            { "targets": 1, "orderable" : false }, 
+            { "targets": 2, "orderable" : false }, 
+            { "targets": 3, "orderable" : false }, 
+            { "targets": 4, "orderable" : false }, 
+            { "targets": 5, "orderable" : false },
+            { "targets": 6, "orderable" : false },
+            { "targets": 7, "orderable" : false },
+		],
 		'ajax': {
 			"type"   : "POST",
 			"url"    : wcfm_params.ajax_url,
 			"data"   : function( d ) {
 				d.action     = 'wcfm_ajax_controller',
 				d.controller = 'wcfm-video',
+                d.wcfm_ajax_nonce = wcfm_params.wcfm_ajax_nonce;
 				d.video_cat      = $video_cat,
 				d.video_vendor   = $video_vendor,
 				d.video_status   = GetURLParameter( 'video_status' )
 			},
-			"complete" : function () {
-				initiateTip();
+			"complete" : function ( response ) {
+                
+                //console.log( response )
+                //console.log( response.responseText )
+                
+                initiateTip();
 				
 				// Fire wcfm-video table refresh complete
 				$( document.body ).trigger( 'updated_wcfm-video' );

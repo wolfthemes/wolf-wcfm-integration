@@ -26,7 +26,7 @@ class WCFM_Video_Module {
 
         add_action( 'wcfm_load_views', array( $this, 'load_views' ), 30 );
 
-        add_action('after_wcfm_ajax_controller', [$this, 'ajax_controller']);
+        add_action( 'after_wcfm_ajax_controller', array( $this, 'ajax_controller' ), 30 );
 
         define( 'WCFM_VIDEO_CPT_LABEL', 'Videos' );
         define( 'WCFM_VIDEO_CPT_SLUG', 'video' );
@@ -90,15 +90,15 @@ class WCFM_Video_Module {
     }
 
     /**
-   * Cpt1 Scripts
-   */
-  public function load_scripts( $end_point ) {
+     * Load Scripts
+     */
+    public function load_scripts( $end_point ) {
 	  global $WCFM, $WCFMcpt;
     
 	  switch( $end_point ) {
 	  	case 'wcfm-' . WCFM_VIDEO_CPT_SLUG:
-      	$WCFM->library->load_datatable_lib();
-      	$WCFM->library->load_select2_lib();
+      	    $WCFM->library->load_datatable_lib();
+      	    $WCFM->library->load_select2_lib();
 	    	wp_enqueue_script( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_js', $this->plugin_url . 'js/' . WCFM_VIDEO_CPT_SLUG . '/wcfm-script-' . WCFM_VIDEO_CPT_SLUG . '.js', array('jquery', 'dataTables_js'), $WCFM->version, true );
 	    	
 	    	// Screen manager
@@ -116,11 +116,31 @@ class WCFM_Video_Module {
 					$wcfm_screen_manager_data = $wcfm_screen_manager_data['admin'];
 				}
 				$wcfm_screen_manager_data[3] = 'yes';
-	    	wp_localize_script( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_js', 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_screen_manage', $wcfm_screen_manager_data );
+	    	
+                // Screen manager
+                wp_localize_script(
+                    'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_js',
+                    'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_screen_manage',
+                    $wcfm_screen_manager_data
+                );
 	    	
 	    	// Localized Script
-        $wcfm_messages = get_wcfm_cpt_manager_messages();
-			wp_localize_script( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_js', 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_messages', $wcfm_messages );
+            $wcfm_messages = get_wcfm_cpt_manager_messages();
+			// Localized Script Messages
+            wp_localize_script(
+                'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_js',
+                'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_messages',
+                $wcfm_messages
+            );
+
+            wp_localize_script(
+            'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_js',
+            'wcfm_params',
+                array(
+                    'ajax_url' => admin_url('admin-ajax.php'),
+                    'wcfm_ajax_nonce' => wp_create_nonce('wcfm_ajax_nonce')
+                )
+            );
       break;
       
       case 'wcfm-' . WCFM_VIDEO_CPT_SLUG . '-manage':
@@ -131,7 +151,7 @@ class WCFM_Video_Module {
 	  		
 	  		// Localized Script
         $wcfm_messages = get_wcfm_cpt_manager_messages();
-			  wp_localize_script( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_js', 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_messages', $wcfm_messages );
+            wp_localize_script( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_js', 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_messages', $wcfm_messages );
 	  	break;
 	  }
 	}
