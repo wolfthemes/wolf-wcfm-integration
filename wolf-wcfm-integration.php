@@ -98,18 +98,20 @@ class WCFM_Video_Module {
      * @return void
      */
     public function load_styles( $end_point ) {
-	  global $WCFM, $WCFMcpt;
-		
-	  switch( $end_point ) {
-	    case 'wcfm-' . WCFM_VIDEO_CPT_SLUG:
-	    	wp_enqueue_style( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_css',  $this->plugin_url . 'css/' . WCFM_VIDEO_CPT_SLUG . '/wcfm-style-' . WCFM_VIDEO_CPT_SLUG . '.css', array(), $WCFM->version );
-		  break;
-		  
-		  case 'wcfm-' . WCFM_VIDEO_CPT_SLUG . '-manage':
-		  	wp_enqueue_style( 'collapsible_css',  $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
-	    	wp_enqueue_style( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_css',  $this->plugin_url . 'css/' . WCFM_VIDEO_CPT_SLUG . '/wcfm-style-' . WCFM_VIDEO_CPT_SLUG . '-manage.css', array(), $WCFM->version );
-		  break;
-	  }
+        global $WCFM, $WCFMcpt;
+
+        wp_enqueue_style( 'wcfm_base_css',  $this->plugin_url . 'css/wcfm-styles.css', array(), $WCFM->version );
+
+        switch( $end_point ) {
+            case 'wcfm-' . WCFM_VIDEO_CPT_SLUG:
+            wp_enqueue_style( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_css',  $this->plugin_url . 'css/' . WCFM_VIDEO_CPT_SLUG . '/wcfm-style-' . WCFM_VIDEO_CPT_SLUG . '.css', array(), $WCFM->version );
+            break;
+
+            case 'wcfm-' . WCFM_VIDEO_CPT_SLUG . '-manage':
+            wp_enqueue_style( 'collapsible_css',  $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
+            wp_enqueue_style( 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_manage_css',  $this->plugin_url . 'css/' . WCFM_VIDEO_CPT_SLUG . '/wcfm-style-' . WCFM_VIDEO_CPT_SLUG . '-manage.css', array(), $WCFM->version );
+        break;
+        }
 	}
 
     /**

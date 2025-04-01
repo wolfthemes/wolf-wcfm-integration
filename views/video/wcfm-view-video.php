@@ -28,7 +28,7 @@ $count_video['any']     = $count_video['publish'] + $count_video['pending'] + $c
 <div class="collapse wcfm-collapse" id="wcfm_video_listing">
 	
 	<div class="wcfm-page-headig">
-		<span class="fa fa-codepen"></span>
+		<span class="wcfmfa fa fa-video"></span>
 		<span class="wcfm-page-heading-text"><?php _e( WCFM_VIDEO_CPT_LABEL, 'wcfm-cpt' ); ?></span>
 		<?php do_action( 'wcfm_page_heading' ); ?>
 	</div>
