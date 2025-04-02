@@ -35,7 +35,7 @@ class WCFM_Video_Controller {
 			'exclude'          => '',
 			'meta_key'         => '',
 			'meta_value'       => '',
-			'post_type'        => WCFM_VIDEO_CPT_SLUG,
+			'post_type'        => 'video',
 			'post_mime_type'   => '',
 			'post_parent'      => '',
 			//'author'	   => get_current_user_id(),
@@ -146,7 +146,7 @@ class WCFM_Video_Controller {
 				
 				// Taxonomies
 				$taxonomies = '';
-				$product_taxonomies = get_object_taxonomies( WCFM_VIDEO_CPT_SLUG, 'objects' );
+				$product_taxonomies = get_object_taxonomies( 'video', 'objects' );
 				if( !empty( $product_taxonomies ) ) {
 					foreach( $product_taxonomies as $product_taxonomy ) {
 						if( !in_array( $product_taxonomy->name, array( 'post_tag' ) ) ) {

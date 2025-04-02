@@ -53,7 +53,7 @@ class WCFM_Video_Manage_Controller {
 			$new_video = apply_filters( 'wcfm_video_content_before_save', array(
 				'post_title'   => wc_clean( $wcfm_video_manage_form_data['title'] ),
 				'post_status'  => $video_status,
-				'post_type'    => WCFM_VIDEO_CPT_SLUG,
+				'post_type'    => 'video',
 				//'post_excerpt' => apply_filters( 'wcfm_editor_content_before_save', stripslashes( html_entity_decode( $_POST['excerpt'], ENT_QUOTES, 'UTF-8' ) ) ),
 				'post_content' => apply_filters( 'wcfm_editor_content_before_save', stripslashes( html_entity_decode( $_POST['description'], ENT_QUOTES, 'UTF-8' ) ) ),
 				'post_author'  => $current_user_id,

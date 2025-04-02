@@ -26,8 +26,13 @@ class Wolf_WCFM_Integration {
         require_once 'helpers/core-functions.php';
 
         require_once( 'core/class-wcfm-cpt.php' );
-        global $WCFM, $WCFMcpt, $WCFM_Query;
-        $WWCFMcpt = new Wolf_WCFM_CPT( __FILE__ );
+        global $WCFM, $WWCFMcpt, $WCFM_Query;
+
+        new Wolf_WCFM_CPT_Module( __FILE__, [
+            'slug'  => 'video',
+            'label' => 'Videos',
+            'icon'  => 'video',
+        ]);
         $GLOBALS['WWCFMcpt'] = $WWCFMcpt;
 
         require_once 'core/class-wcfm-filters.php';
