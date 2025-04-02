@@ -20,3 +20,19 @@ if(!function_exists('get_wcfm_cpt_manage_url')) {
 		return apply_filters( 'wcfm_video_manage_url', $get_wcfm_cpt_manage_url );
 	}
 }
+
+if(!function_exists('get_wcfm_cpt_manager_messages')) {
+	function get_wcfm_cpt_manager_messages() {
+		global $WCFM;
+		
+		$messages = apply_filters( 'wcfm_validation_messages_cpt_manager', array(
+			'no_title'        => __('Please insert Title before submit.', 'wcfm-cpt'),
+			'cpt_saved'       => __('Successfully Saved.', 'wcfm-cpt'),
+			'cpt_pending'     => __( 'Successfully submitted for moderation.', 'wcfm-cpt' ),
+			'cpt_published'   => __('Successfully Published.', 'wcfm-cpt'),
+			'delete_confirm'  => __( "Are you sure and want to delete this?\nYou can't undo this action ...", 'wcfm-cpt'),
+		) );
+		
+		return $messages;
+	}
+}

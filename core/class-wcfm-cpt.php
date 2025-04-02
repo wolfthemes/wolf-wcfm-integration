@@ -8,6 +8,7 @@ class Wolf_WCFM_CPT {
     private $plugin_url;
 
     public function __construct( $file ) {
+        
         $this->plugin_path = plugin_dir_path( $file );
         $this->plugin_url  = plugin_dir_url( $file );
 
@@ -77,7 +78,7 @@ class Wolf_WCFM_CPT {
             'icon'     => 'video',
             'has_new'    => 'yes',
             'new_class'  => 'wcfm_sub_menu_items_' . WCFM_VIDEO_CPT_SLUG . '_manage',
-            'new_url'    => get_wcfm_video_manage_url(),
+            'new_url'    => get_wcfm_cpt_manage_url( 'video' ),
             'capability' => 'wcfm_' . WCFM_VIDEO_CPT_SLUG . '_menu',
             'submenu_capability' => 'wcfm_add_new_' . WCFM_VIDEO_CPT_SLUG . '_sub_menu',
             'priority'  => 4
