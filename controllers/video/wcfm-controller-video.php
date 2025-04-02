@@ -199,23 +199,9 @@ class WCFM_Video_Controller {
 			}												
 		}
 
-
 		$wcfm_video_json_array['data'] = $wcfm_video_json_arr;
-
-		// echo '<pre>';
-		// print_r($wcfm_video_json_arr);
-		// echo '</pre>';
-		// exit;
 
 		wp_send_json($wcfm_video_json_array);
 
-		// if( !empty($wcfm_video_json_arr) ) $wcfm_video_json .= json_encode($wcfm_video_json_arr);
-		
-		// else $wcfm_video_json .= '[]';
-		
-		// $wcfm_video_json .= '}';
-
-
-		// echo $wcfm_video_json;
 	}
 }
