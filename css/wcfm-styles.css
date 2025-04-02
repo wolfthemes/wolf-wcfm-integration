@@ -1,3 +1,7 @@
+.wcfm-dashboard-page #hero{
+    display: none;
+}
+
 .wcfm-dashboard-page .content-wrapper {
     max-width: none !important;
     width: 100% !important;

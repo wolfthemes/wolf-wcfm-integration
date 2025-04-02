@@ -150,11 +150,11 @@ class WCFM_Video_Manage_Controller {
 				
 				if(!$has_error) {
 					if( get_post_status( $new_video_id ) == 'publish' ) {
-						if(!$has_error) echo '{"status": true, "message": "' . apply_filters( 'video_published_message', $wcfm_video_manage_messages['cpt_published'], $new_video_id ) . '", "redirect": "' . apply_filters( 'wcfm_video_save_publish_redirect', get_wcfm_video_manage_url( $new_video_id ), $new_video_id ) . '", "id": "' . $new_video_id . '", "title": "' . get_the_title( $new_video_id ) . '"}';	
+						if(!$has_error) echo '{"status": true, "message": "' . apply_filters( 'video_published_message', $wcfm_video_manage_messages['cpt_published'], $new_video_id ) . '", "redirect": "' . apply_filters( 'wcfm_video_save_publish_redirect', get_wcfm_cpt_manage_url( 'video', $new_video_id ), $new_video_id ) . '", "id": "' . $new_video_id . '", "title": "' . get_the_title( $new_video_id ) . '"}';	
 					} elseif( get_post_status( $new_video_id ) == 'pending' ) {
-						if(!$has_error) echo '{"status": true, "message": "' . apply_filters( 'video_pending_message', $wcfm_video_manage_messages['cpt_pending'], $new_video_id ) . '", "redirect": "' . apply_filters( 'wcfm_video_save_pending_redirect', get_wcfm_video_manage_url( $new_video_id ), $new_video_id ) . '", "id": "' . $new_video_id . '", "title": "' . get_the_title( $new_video_id ) . '"}';
+						if(!$has_error) echo '{"status": true, "message": "' . apply_filters( 'video_pending_message', $wcfm_video_manage_messages['cpt_pending'], $new_video_id ) . '", "redirect": "' . apply_filters( 'wcfm_video_save_pending_redirect', get_wcfm_cpt_manage_url( 'video', $new_video_id ), $new_video_id ) . '", "id": "' . $new_video_id . '", "title": "' . get_the_title( $new_video_id ) . '"}';
 					} else {
-						if(!$has_error) echo '{"status": true, "message": "' . apply_filters( 'video_saved_message', $wcfm_video_manage_messages['cpt_saved'], $new_video_id ) . '", "redirect": "' . apply_filters( 'wcfm_video_save_draft_redirect', get_wcfm_video_manage_url( $new_video_id ), $new_video_id ) . '", "id": "' . $new_video_id . '"}';
+						if(!$has_error) echo '{"status": true, "message": "' . apply_filters( 'video_saved_message', $wcfm_video_manage_messages['cpt_saved'], $new_video_id ) . '", "redirect": "' . apply_filters( 'wcfm_video_save_draft_redirect', get_wcfm_cpt_manage_url( 'video', $new_video_id ), $new_video_id ) . '", "id": "' . $new_video_id . '"}';
 					}
 				}
 				die;
