@@ -25,7 +25,11 @@ class Wolf_WCFM_CPT_Module {
         $this->plugin_url  = plugin_dir_url( $this->file );
 
         add_filter( 'wcfm_query_vars', [$this, 'add_query_vars'], 50 );
-        add_filter( 'wcfm_endpoints_slug', [$this, 'add_endpoints_slug'] );
+        add_filter( 'wcfm_endpoint_title', array( $this, 'endpoint_title' ), 20, 2 );
+
+		add_action( 'init', array( $this, 'init' ), 20 );
+
+		add_filter( 'wcfm_endpoints_slug', [$this, 'add_endpoints_slug'] );
         add_filter( 'wcfm_menu_dependancy_map', [$this, 'manage_dependency_map'] );
         add_filter( 'wcfm_blocked_product_popup_views', [$this, 'blocked_product_popup_views'] );
         add_filter( 'wcfm_menus', [$this, 'add_menu'] );
@@ -35,6 +39,40 @@ class Wolf_WCFM_CPT_Module {
         add_action( 'wcfm_load_views', [$this, 'load_views'], 30 );
         add_action( 'after_wcfm_ajax_controller', [$this, 'ajax_controller'], 30 );
     }
+
+	/**
+   * WCFM Cpt1 End Point Title
+   */
+  	public function endpoint_title( $title, $endpoint ) {
+		global $wp;
+		switch ( $endpoint ) {
+			case 'wcfm-' . $this->slug :
+					$title = sprintf( __( '%s Dashboard', 'wc-frontend-manager' ), $this->label );
+				break;
+				case 'wcfm-' . $this->slug . '-manage' :
+					$title = sprintf( __( '%s Manager', 'wc-frontend-manager' ), $this->label );
+				break;
+		}
+
+		return $title;
+	}
+
+	/**
+	 * WCFM CPT Endpoint Intialize
+	 */
+	function init() {
+		global $WCFM_Query;
+
+		// Intialize WCFM End points
+		$WCFM_Query->init_query_vars();
+		$WCFM_Query->add_endpoints();
+
+		if( ! get_option( 'wcfm_updated_end_point_wcfm_' . $this->slug ) ) {
+			// Flush rules after endpoint update
+			flush_rewrite_rules();
+			update_option( 'wcfm_updated_end_point_wcfm_' . $this->slug, 1 );
+		}
+	}
 
     public function add_query_vars($query_vars) {
         $wcfm_modified_endpoints = (array) get_option( 'wcfm_endpoints' );
