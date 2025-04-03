@@ -140,8 +140,8 @@ if( $wpeditor && $rich_editor ) {
 				  <div class="wcfm_video_manager_general_fields">
 						<?php
 							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_video_manage_fields_general', array(
-																																																"title" => array( 'placeholder' => __( 'Video Title', 'wcfm-cpt') , 'type' => 'text', 'class' => 'wcfm-text wcfm_video_title wcfm_full_ele', 'value' => $title),
-																																													), $video_id ) );
+								"title" => array( 'placeholder' => __( 'Video Title', 'wcfm-cpt') , 'type' => 'text', 'class' => 'wcfm-text wcfm_video_title wcfm_full_ele', 'value' => $title),
+							), $video_id ) );
 							
 						?>
 						<div class="wcfm_clearfix"></div>
@@ -149,59 +149,59 @@ if( $wpeditor && $rich_editor ) {
 						<?php if( !$wcfm_is_category_checklist = apply_filters( 'wcfm_is_category_checklist', true ) ) { ?>
 						  <?php if( $wcfm_is_allow_category = apply_filters( 'wcfm_is_allow_category', true ) ) { $catlimit = apply_filters( 'wcfm_catlimit', -1 ); ?>
 								<?php
-								if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
-									$video_taxonomies = get_object_taxonomies( 'video', 'objects' );
-									if( !empty( $video_taxonomies ) ) {
-										foreach( $video_taxonomies as $video_taxonomy ) {
-											if( !in_array( $video_taxonomy->name, array( 'post_tag' ) ) ) {
-												if( $video_taxonomy->public && $video_taxonomy->show_ui && $video_taxonomy->meta_box_cb && $video_taxonomy->hierarchical ) {
-													// Fetching Saved Values
-													$taxonomy_values_arr = array();
-													if($video && !empty($video)) {
-														$taxonomy_values = get_the_terms( $video_id, $video_taxonomy->name );
-														if( !empty($taxonomy_values) ) {
-															foreach($taxonomy_values as $pkey => $ptaxonomy) {
-																$taxonomy_values_arr[] = $ptaxonomy->term_id;
-															}
-														}
-													}
-													?>
-													<p class="wcfm_title"><strong><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $video_taxonomy->name; ?>"><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></label>
-													<select id="<?php echo $video_taxonomy->name; ?>" name="video_custom_taxonomies[<?php echo $video_taxonomy->name; ?>][]" class="wcfm-select video_taxonomies " multiple="multiple" style="width: 100%; margin-bottom: 10px;">
-														<?php
-															$video_taxonomy_terms   = get_terms( $video_taxonomy->name, 'orderby=name&hide_empty=0&parent=0' );
-															if ( $video_taxonomy_terms ) {
-																$WCFM->library->generateTaxonomyHTML( $video_taxonomy->name, $video_taxonomy_terms, $taxonomy_values_arr );
-															}
-														?>
-													</select>
-													<?php
-												}
-											}
-										}
-									}
-								}
+								// if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
+								// 	$video_taxonomies = get_object_taxonomies( 'video', 'objects' );
+								// 	if( !empty( $video_taxonomies ) ) {
+								// 		foreach( $video_taxonomies as $video_taxonomy ) {
+								// 			if( !in_array( $video_taxonomy->name, array( 'post_tag' ) ) ) {
+								// 				if( $video_taxonomy->public && $video_taxonomy->show_ui && $video_taxonomy->meta_box_cb && $video_taxonomy->hierarchical ) {
+								// 					// Fetching Saved Values
+								// 					$taxonomy_values_arr = array();
+								// 					if($video && !empty($video)) {
+								// 						$taxonomy_values = get_the_terms( $video_id, $video_taxonomy->name );
+								// 						if( !empty($taxonomy_values) ) {
+								// 							foreach($taxonomy_values as $pkey => $ptaxonomy) {
+								// 								$taxonomy_values_arr[] = $ptaxonomy->term_id;
+								// 							}
+								// 						}
+								// 					}
+								// 					?>
+								// 					<p class="wcfm_title"><strong><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $video_taxonomy->name; ?>"><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></label>
+								// 					<select id="<?php echo $video_taxonomy->name; ?>" name="video_custom_taxonomies[<?php echo $video_taxonomy->name; ?>][]" class="wcfm-select video_taxonomies " multiple="multiple" style="width: 100%; margin-bottom: 10px;">
+								// 						<?php
+								// 							$video_taxonomy_terms   = get_terms( $video_taxonomy->name, 'orderby=name&hide_empty=0&parent=0' );
+								// 							if ( $video_taxonomy_terms ) {
+								// 								$WCFM->library->generateTaxonomyHTML( $video_taxonomy->name, $video_taxonomy_terms, $taxonomy_values_arr );
+								// 							}
+								// 						?>
+								// 					</select>
+								// 					<?php
+								// 				}
+								// 			}
+								// 		}
+								// 	}
+								// }
 							}
 							
-							if( $wcfm_is_allow_tags = apply_filters( 'wcfm_is_allow_tags', true ) ) {
+							// if( $wcfm_is_allow_tags = apply_filters( 'wcfm_is_allow_tags', true ) ) {
 								
-								if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
-									$video_taxonomies = get_object_taxonomies( 'video', 'objects' );
-									if( !empty( $video_taxonomies ) ) {
-										foreach( $video_taxonomies as $video_taxonomy ) {
-											if( !in_array( $video_taxonomy->name, array( 'post_tag' ) ) ) {
-												if( $video_taxonomy->public && $video_taxonomy->show_ui && $video_taxonomy->meta_box_cb && !$video_taxonomy->hierarchical ) {
-													// Fetching Saved Values
-													$taxonomy_values_arr = wp_get_post_terms($video_id, $video_taxonomy->name, array("fields" => "names"));
-													$taxonomy_values = implode(',', $taxonomy_values_arr);
-													$WCFM->wcfm_fields->wcfm_generate_form_field( array(  $video_taxonomy->name => array( 'label' => $video_taxonomy->label, 'name' => 'video_custom_taxonomies_flat[' . $video_taxonomy->name . '][]', 'type' => 'textarea', 'class' => 'wcfm-textarea  wcfm_full_ele', 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $taxonomy_values, 'placeholder' => __('Separate video ' . $video_taxonomy->label . ' with commas', 'wcfm-cpt') )
-																																			) );
-												}
-											}
-										}
-									}
-								}
-							}
+							// 	if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
+							// 		$video_taxonomies = get_object_taxonomies( 'video', 'objects' );
+							// 		if( !empty( $video_taxonomies ) ) {
+							// 			foreach( $video_taxonomies as $video_taxonomy ) {
+							// 				if( !in_array( $video_taxonomy->name, array( 'post_tag' ) ) ) {
+							// 					if( $video_taxonomy->public && $video_taxonomy->show_ui && $video_taxonomy->meta_box_cb && !$video_taxonomy->hierarchical ) {
+							// 						// Fetching Saved Values
+							// 						$taxonomy_values_arr = wp_get_post_terms($video_id, $video_taxonomy->name, array("fields" => "names"));
+							// 						$taxonomy_values = implode(',', $taxonomy_values_arr);
+							// 						$WCFM->wcfm_fields->wcfm_generate_form_field( array(  $video_taxonomy->name => array( 'label' => $video_taxonomy->label, 'name' => 'video_custom_taxonomies_flat[' . $video_taxonomy->name . '][]', 'type' => 'textarea', 'class' => 'wcfm-textarea  wcfm_full_ele', 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $taxonomy_values, 'placeholder' => __('Separate video ' . $video_taxonomy->label . ' with commas', 'wcfm-cpt') )
+							// 																												) );
+							// 					}
+							// 				}
+							// 			}
+							// 		}
+							// 	}
+							// }
 							?>
 						<?php } ?>
 						<?php if( $wcfm_is_category_checklist = apply_filters( 'wcfm_is_category_checklist', true ) ) { ?>
@@ -209,10 +209,10 @@ if( $wpeditor && $rich_editor ) {
 							<div class="wcfm_video_manager_content_fields">
 								<?php
 								$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_video_manage_fields_content', array(
-																																																			//"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
-																																																			"description" => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
-																																																			"video_id" => array('type' => 'hidden', 'value' => $video_id)
-																																															), $video_id ) );
+									//"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
+									"description" => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
+									"video_id" => array('type' => 'hidden', 'value' => $video_id)
+								), $video_id ) );
 								?>
 							</div>
 						<?php } ?>
@@ -267,22 +267,22 @@ if( $wpeditor && $rich_editor ) {
 							
 							if( $wcfm_is_allow_tags = apply_filters( 'wcfm_is_allow_tags', true ) ) {
 									
-									if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
-										$video_taxonomies = get_object_taxonomies( 'video', 'objects' );
-										if( !empty( $video_taxonomies ) ) {
-											foreach( $video_taxonomies as $video_taxonomy ) {
-												if( !in_array( $video_taxonomy->name, array( 'post_tag' ) ) ) {
-													if( $video_taxonomy->public && $video_taxonomy->show_ui && $video_taxonomy->meta_box_cb && !$video_taxonomy->hierarchical ) {
-														// Fetching Saved Values
-														$taxonomy_values_arr = wp_get_post_terms($video_id, $video_taxonomy->name, array("fields" => "names"));
-														$taxonomy_values = implode(',', $taxonomy_values_arr);
-														$WCFM->wcfm_fields->wcfm_generate_form_field( array(  $video_taxonomy->name => array( 'label' => $video_taxonomy->label, 'name' => 'video_custom_taxonomies_flat[' . $video_taxonomy->name . '][]', 'type' => 'textarea', 'class' => 'wcfm-textarea  wcfm_full_ele', 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $taxonomy_values, 'placeholder' => __('Separate video ' . $video_taxonomy->label . ' with commas', 'wcfm-cpt') )
-																																				) );
-													}
-												}
-											}
-										}
-									}
+									// if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
+									// 	$video_taxonomies = get_object_taxonomies( 'video', 'objects' );
+									// 	if( !empty( $video_taxonomies ) ) {
+									// 		foreach( $video_taxonomies as $video_taxonomy ) {
+									// 			if( !in_array( $video_taxonomy->name, array( 'post_tag' ) ) ) {
+									// 				if( $video_taxonomy->public && $video_taxonomy->show_ui && $video_taxonomy->meta_box_cb && !$video_taxonomy->hierarchical ) {
+									// 					// Fetching Saved Values
+									// 					$taxonomy_values_arr = wp_get_post_terms($video_id, $video_taxonomy->name, array("fields" => "names"));
+									// 					$taxonomy_values = implode(',', $taxonomy_values_arr);
+									// 					$WCFM->wcfm_fields->wcfm_generate_form_field( array(  $video_taxonomy->name => array( 'label' => $video_taxonomy->label, 'name' => 'video_custom_taxonomies_flat[' . $video_taxonomy->name . '][]', 'type' => 'textarea', 'class' => 'wcfm-textarea  wcfm_full_ele', 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $taxonomy_values, 'placeholder' => __('Separate video ' . $video_taxonomy->label . ' with commas', 'wcfm-cpt') )
+									// 																											) );
+									// 				}
+									// 			}
+									// 		}
+									// 	}
+									// }
 								}
 							?>
 						<?php } ?>
@@ -297,10 +297,10 @@ if( $wpeditor && $rich_editor ) {
 							<?php
 							$rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
 							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_video_manage_fields_content', array(
-																																																		//"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor , 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
-																																																		"description" => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
-																																																		"video_id" => array('type' => 'hidden', 'value' => $video_id)
-																																														), $video_id ) );
+								//"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor , 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
+								"description" => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
+								"video_id" => array('type' => 'hidden', 'value' => $video_id)
+							), $video_id ) );
 							?>
 						</div>
 					</div>

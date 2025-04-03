@@ -1,4 +1,4 @@
-var video_form_is_valid = true;
+var event_form_is_valid = true;
 jQuery( document ).ready( function( $ ) {
 		
 	// Collapsible
@@ -35,8 +35,8 @@ jQuery( document ).ready( function( $ ) {
 	$('.wcfm-tabWrap').find('.wcfm-container').hide();
 	$('.wcfm-tabWrap').find('.page_collapsible:first').click();
 	
-	if( $('.video_taxonomies').length > 0 ) {
-		$('.video_taxonomies').each(function() {
+	if( $('.event_taxonomies').length > 0 ) {
+		$('.event_taxonomies').each(function() {
 			$("#" + $(this).attr('id')).select2({
 				placeholder: wcfm_dashboard_messages.choose_select2 + $(this).attr('id') + " ..."
 			});
@@ -49,15 +49,15 @@ jQuery( document ).ready( function( $ ) {
 		});
 	}
 	
-	if( $('#video_cats_checklist').length > 0 ) {
+	if( $('#event_cats_checklist').length > 0 ) {
 		$('.sub_checklist_toggler').each(function() {
-			if( $(this).parent().find('.video_taxonomy_sub_checklist').length > 0 ) { $(this).css( 'visibility', 'visible' ); }
+			if( $(this).parent().find('.event_taxonomy_sub_checklist').length > 0 ) { $(this).css( 'visibility', 'visible' ); }
 		  $(this).click(function() {
 		    $(this).toggleClass('fa-arrow-circle-down');
-		    $(this).parent().find('.video_taxonomy_sub_checklist').toggleClass('video_taxonomy_sub_checklist_visible');
+		    $(this).parent().find('.event_taxonomy_sub_checklist').toggleClass('event_taxonomy_sub_checklist_visible');
 		  });
 		});
-		$('.video_cats_checklist_item_hide_by_cap').attr( 'disabled', true );
+		$('.event_cats_checklist_item_hide_by_cap').attr( 'disabled', true );
 	}
 	
 	// Tag Cloud
@@ -79,13 +79,13 @@ jQuery( document ).ready( function( $ ) {
 	// 					  $(this).click(function(event) {
 	// 					  	event.preventDefault();
 	// 					  	$tag = $(this).text();
-	// 					  	$tags = $('#video_tags').val();
+	// 					  	$tags = $('#event_tags').val();
 	// 					  	if( $tags.length > 0 ) {
 	// 					  		$tags += ',' + $tag;
 	// 					  	} else {
 	// 					  		$tags = $tag;
 	// 					  	}
-	// 					  	$('#video_tags').val($tags);
+	// 					  	$('#event_tags').val($tags);
 	// 					  });
 	// 					});
 	// 				}
@@ -96,33 +96,33 @@ jQuery( document ).ready( function( $ ) {
 	
 
 	
-	function wcfm_video_manage_form_validate() {
-		video_form_is_valid = true;
+	function wcfm_event_manage_form_validate() {
+		event_form_is_valid = true;
 		$('.wcfm-message').html('').removeClass('wcfm-error').removeClass('wcfm-success').slideUp();
-		var title = $.trim($('#wcfm_video_manage_form').find('#title').val());
-		$('#wcfm_video_manage_form').find('#title').removeClass('wcfm_validation_failed').addClass('wcfm_validation_success');
+		var title = $.trim($('#wcfm_event_manage_form').find('#title').val());
+		$('#wcfm_event_manage_form').find('#title').removeClass('wcfm_validation_failed').addClass('wcfm_validation_success');
 		if(title.length == 0) {
-			$('#wcfm_video_manage_form').find('#title').removeClass('wcfm_validation_success').addClass('wcfm_validation_failed');
-			video_form_is_valid = false;
-			$('#wcfm_video_manage_form .wcfm-message').html('<span class="wcicon-status-cancelled"></span>' + wcfm_video_manage_messages.no_title).addClass('wcfm-error').slideDown();
+			$('#wcfm_event_manage_form').find('#title').removeClass('wcfm_validation_success').addClass('wcfm_validation_failed');
+			event_form_is_valid = false;
+			$('#wcfm_event_manage_form .wcfm-message').html('<span class="wcicon-status-cancelled"></span>' + wcfm_event_manage_messages.no_title).addClass('wcfm-error').slideDown();
 			audio.play();
 		}
 		
-		$( document.body ).trigger( 'wcfm_video_manage_form_validate' );
+		$( document.body ).trigger( 'wcfm_event_manage_form_validate' );
 		
-		$wcfm_is_valid_form = video_form_is_valid;
-		$( document.body ).trigger( 'wcfm_form_validate', $('#wcfm_video_manage_form') );
-		video_form_is_valid = $wcfm_is_valid_form;
+		$wcfm_is_valid_form = event_form_is_valid;
+		$( document.body ).trigger( 'wcfm_form_validate', $('#wcfm_event_manage_form') );
+		event_form_is_valid = $wcfm_is_valid_form;
 		
-		return video_form_is_valid;
+		return event_form_is_valid;
 	}
 	
-	// Draft video
-	$('#wcfm_video_simple_draft_button').click(function(event) {
+	// Draft event
+	$('#wcfm_event_simple_draft_button').click(function(event) {
 	  event.preventDefault();
 	  
 	  // Validations
-	  $is_valid = wcfm_video_manage_form_validate();
+	  $is_valid = wcfm_event_manage_form_validate();
 	  
 	  if($is_valid) {
 			$('#wcfm-content').block({
@@ -139,9 +139,9 @@ jQuery( document ).ready( function( $ ) {
 			
 			var data = {
 				action : 'wcfm_ajax_controller',
-				controller : 'wcfm-video-manage',
+				controller : 'wcfm-event-manage',
                 wcfm_ajax_nonce : wcfm_params.wcfm_ajax_nonce,
-				wcfm_video_manage_form : $('#wcfm_video_manage_form').serialize(),
+				wcfm_event_manage_form : $('#wcfm_event_manage_form').serialize(),
 				excerpt     : excerpt,
 				description : description,
 				status : 'draft'
@@ -153,26 +153,26 @@ jQuery( document ).ready( function( $ ) {
 					$('.wcfm-message').html('').removeClass('wcfm-error').removeClass('wcfm-success').slideUp();
 					if($response_json.status) {
 						audio.play();
-						$('#wcfm_video_manage_form .wcfm-message').html('<span class="wcicon-status-completed"></span>' + $response_json.message).addClass('wcfm-success').slideDown( "slow", function() {
+						$('#wcfm_event_manage_form .wcfm-message').html('<span class="wcicon-status-completed"></span>' + $response_json.message).addClass('wcfm-success').slideDown( "slow", function() {
 							if( $response_json.redirect ) window.location = $response_json.redirect;	
 						} );
 					} else {
 						audio.play();
-						$('#wcfm_video_manage_form .wcfm-message').html('<span class="wcicon-status-cancelled"></span>' + $response_json.message).addClass('wcfm-error').slideDown();
+						$('#wcfm_event_manage_form .wcfm-message').html('<span class="wcicon-status-cancelled"></span>' + $response_json.message).addClass('wcfm-error').slideDown();
 					}
-					if($response_json.id) $('#video_id').val($response_json.id);
+					if($response_json.id) $('#event_id').val($response_json.id);
 					$('#wcfm-content').unblock();
 				}
 			});	
 		}
 	});
 	
-	// Submit video
-	$('#wcfm_video_simple_submit_button').click(function(event) {
+	// Submit event
+	$('#wcfm_event_simple_submit_button').click(function(event) {
 	  event.preventDefault();
 	  
 	  // Validations
-	  $is_valid = wcfm_video_manage_form_validate();
+	  $is_valid = wcfm_event_manage_form_validate();
 	  
 	  if($is_valid) {
 			$('#wcfm-content').block({
@@ -190,8 +190,8 @@ jQuery( document ).ready( function( $ ) {
 			var data = {
 				action : 'wcfm_ajax_controller',
                 wcfm_ajax_nonce : wcfm_params.wcfm_ajax_nonce,
-				controller : 'wcfm-video-manage',
-				wcfm_video_manage_form : $('#wcfm_video_manage_form').serialize(),
+				controller : 'wcfm-event-manage',
+				wcfm_event_manage_form : $('#wcfm_event_manage_form').serialize(),
 				excerpt     : excerpt,
 				description : description,
 				status : 'submit'
@@ -203,13 +203,13 @@ jQuery( document ).ready( function( $ ) {
 					$('.wcfm-message').html('').removeClass('wcfm-success').removeClass('wcfm-error').slideUp();
 					wcfm_notification_sound.play();
 					if($response_json.status) {
-						$('#wcfm_video_manage_form .wcfm-message').html('<span class="wcicon-status-completed"></span>' + $response_json.message).addClass('wcfm-success').slideDown( "slow", function() {
+						$('#wcfm_event_manage_form .wcfm-message').html('<span class="wcicon-status-completed"></span>' + $response_json.message).addClass('wcfm-success').slideDown( "slow", function() {
 						  if( $response_json.redirect ) window.location = $response_json.redirect;	
 						} );
 					} else {
-						$('#wcfm_video_manage_form .wcfm-message').html('<span class="wcicon-status-cancelled"></span>' + $response_json.message).addClass('wcfm-error').slideDown();
+						$('#wcfm_event_manage_form .wcfm-message').html('<span class="wcicon-status-cancelled"></span>' + $response_json.message).addClass('wcfm-error').slideDown();
 					}
-					if($response_json.id) $('#video_id').val($response_json.id);
+					if($response_json.id) $('#event_id').val($response_json.id);
 					wcfmMessageHide();
 					$('#wcfm-content').unblock();
 				}

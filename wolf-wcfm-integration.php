@@ -24,18 +24,15 @@ class Wolf_WCFM_Integration {
     public function init() {
 
         require_once 'helpers/core-functions.php';
-
-        require_once( 'core/class-wcfm-cpt.php' );
-        global $WCFM, $WWCFMcpt, $WCFM_Query;
-
-        new Wolf_WCFM_CPT_Module( __FILE__, [
-            'slug'  => 'video',
-            'label' => 'Videos',
-            'icon'  => 'video',
-        ]);
-        $GLOBALS['WWCFMcpt'] = $WWCFMcpt;
-
+        require_once 'core/class-wcfm-cpt.php';
         require_once 'core/class-wcfm-filters.php';
+
+        $cpt_config = require 'config/cpt-config.php';
+
+        foreach ( $cpt_config as $cpt ) {
+            new Wolf_WCFM_CPT_Module( __FILE__, $cpt );
+        }
+
         new Wolf_WCFM_Filters();
     }
 

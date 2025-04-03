@@ -19,7 +19,7 @@ class Wolf_WCFM_Filters {
         add_filter( $this->theme_slug . '_event_index_params', array( $this, 'add_store_id_filter' ) );
         add_filter( $this->theme_slug . '_post_index_params', array( $this, 'add_store_id_filter' ) );
         add_filter( $this->theme_slug . '_post_module_main_query_args', array( $this, 'filter_post_query' ), 10, 2 );
-
+        //add_filter( $this->theme_slug . '_js_params', array( $this, 'overwrite_js_params' ) );
     }
 
     public function get_vendors() {
@@ -77,4 +77,31 @@ class Wolf_WCFM_Filters {
 
         return $args;
     }
+
+    public function overwrite_js_params( $params ) {
+
+        if ( $this->is_wcfm_dashboard() ) {
+            $params['lenis'] = false;
+        }
+
+        return $params;
+    }
+
+    public function is_wcfm_dashboard() {
+        if ( function_exists( 'wcfm_is_store_page' ) && wcfm_is_store_page() ) {
+            return false; // Avoid confusing vendor store with dashboard
+        }
+
+        global $wp_query;
+        $wcfm_query_vars = apply_filters( 'wcfm_query_vars', array() );
+
+        foreach ( $wcfm_query_vars as $key => $endpoint ) {
+            if ( get_query_var( $endpoint ) ) {
+                return true;
+            }
+        }
+
+        return is_page( get_wcfm_page_id() );
+    }
+
 }
