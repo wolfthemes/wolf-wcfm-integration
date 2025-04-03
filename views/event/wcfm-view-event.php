@@ -28,7 +28,7 @@ $count_event['any']     = $count_event['publish'] + $count_event['pending'] + $c
 <div class="collapse wcfm-collapse" id="wcfm_event_listing">
 	
 	<div class="wcfm-page-headig">
-		<span class="wcfmfa fa fa-event"></span>
+		<span class="wcfmfa fa fa-calendar"></span>
 		<span class="wcfm-page-heading-text"><?php _e( 'Events', 'wcfm-cpt' ); ?></span>
 		<?php do_action( 'wcfm_page_heading' ); ?>
 	</div>

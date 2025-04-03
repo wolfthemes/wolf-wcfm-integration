@@ -5,49 +5,51 @@
  * Version: 1.0.0
  */
 
-if (!defined('ABSPATH')) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Wolf_WCFM_Integration {
 
-    private $plugin_path;
-    private $plugin_url;
+	private $plugin_path;
+	private $plugin_url;
 
-    public function __construct() {
+	public function __construct() {
 
-        $this->plugin_path = plugin_dir_path(__FILE__);
-        $this->plugin_url  = plugin_dir_url(__FILE__);
+		$this->plugin_path = plugin_dir_path( __FILE__ );
+		$this->plugin_url  = plugin_dir_url( __FILE__ );
 
-        add_action( 'wcfm_init', array( $this, 'init' ), 20 );
-        add_action( 'wp_enqueue_scripts', array( &$this, 'load_default_styles' ) );
-    }
+		add_action( 'wcfm_init', array( $this, 'init' ), 20 );
+		add_action( 'wp_enqueue_scripts', array( &$this, 'load_default_styles' ) );
+	}
 
-    public function init() {
+	public function init() {
 
-        require_once 'helpers/core-functions.php';
-        require_once 'core/class-wcfm-cpt.php';
-        require_once 'core/class-wcfm-filters.php';
+		require_once 'helpers/core-functions.php';
+		require_once 'core/class-wcfm-cpt.php';
+		require_once 'core/class-wcfm-filters.php';
 
-        $cpt_config = require 'config/cpt-config.php';
+		$cpt_config = require 'config/cpt-config.php';
 
-        foreach ( $cpt_config as $cpt ) {
-            new Wolf_WCFM_CPT_Module( __FILE__, $cpt );
-        }
+		foreach ( $cpt_config as $cpt ) {
+			new Wolf_WCFM_CPT_Module( __FILE__, $cpt );
+		}
 
-        new Wolf_WCFM_Filters();
-    }
+		new Wolf_WCFM_Filters();
+	}
 
-    /**
-     * Load styles
-     *
-     * @param [type] $end_point
-     * @return void
-     */
-    public function load_default_styles() {
+	/**
+	 * Load styles
+	 *
+	 * @param [type] $end_point
+	 * @return void
+	 */
+	public function load_default_styles() {
 
-        global $WCFM;
-        wp_enqueue_style( 'wcfm_base_css',  $this->plugin_url . 'css/wcfm-styles.css', array(), $WCFM->version );
-    }  
-    
+		global $WCFM;
+		wp_enqueue_style( 'wcfm_base_css', $this->plugin_url . 'css/wcfm-styles.css', array(), $WCFM->version );
+	}
+
 }
 
 new Wolf_WCFM_Integration();

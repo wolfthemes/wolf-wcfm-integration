@@ -1,0 +1,33 @@
+# utils
+vendor
+wpcs
+
+# Ignore sass cache
+**/.sass-cache
+
+# Ignore grunt stuff
+node_modules
+.grunt
+tmp
+
+# Ignore bower components
+**/bower_components
+
+# php storm
+*.idea
+
+# Sublime Text 2
+*.sublime-project
+*.sublime-workspace
+
+# PSD
+*.psd
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Mac crap
+.DS_Store
