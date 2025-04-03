@@ -10,20 +10,20 @@
  */
 
 class WCFM_Event_Controller {
-	
+
 	public function __construct() {
 		global $WCFM;
-		
+
 		$this->processing();
-		
+
 	}
-	
+
 	public function processing() {
 		global $WCFM, $wpdb, $_POST;
-		
+
 		$length = $_POST['length'];
 		$offset = $_POST['start'];
-		
+
 		$args = array(
 			'posts_per_page'   => $length,
 			'offset'           => $offset,
@@ -40,16 +40,16 @@ class WCFM_Event_Controller {
 			'post_parent'      => '',
 			//'author'	   => get_current_user_id(),
 			'post_status'      => array('draft', 'pending', 'publish'),
-			'suppress_filters' => 0 
+			'suppress_filters' => 0
 		);
 		$for_count_args = $args;
-		
+
 		if( isset( $_POST['search'] ) && !empty( $_POST['search']['value'] )) {
 			$args['s'] = $_POST['search']['value'];
 		}
-		
+
 		if( isset($_POST['event_status']) && !empty($_POST['event_status']) ) $args['post_status'] = $_POST['event_status'];
-  	
+
 		// Multi Vendor Support
 		$is_marketplace = wcfm_is_marketplace();
 		if( $is_marketplace ) {
@@ -62,11 +62,11 @@ class WCFM_Event_Controller {
 				$args['author'] = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 			}
 		}
-		
+
 		$args = apply_filters( 'wcfm_event_args', $args );
-		
+
 		$wcfm_event_array = get_posts( $args );
-		
+
 		$event_count = 0;
 		$filtered_event_count = 0;
 		if( wcfm_is_vendor() ) {
@@ -76,7 +76,7 @@ class WCFM_Event_Controller {
 			$for_count_args = apply_filters( 'wcfm_event_args', $for_count_args );
 			$wcfm_event_count = get_posts( $for_count_args );
 			$event_count = count($wcfm_event_count);
-			
+
 			// Get Filtered Post Count
 			$args['posts_per_page'] = -1;
 			$args['offset'] = 0;
@@ -90,11 +90,11 @@ class WCFM_Event_Controller {
 					$event_count += $wcfm_event_count;
 				}
 			}
-			
+
 			// Get Filtered Post Count
-			$filtered_event_count = $event_count; 
+			$filtered_event_count = $event_count;
 		}
-		
+
 		// Generate event JSON
 		$wcfm_event_json = '';
 		$wcfm_event_json = '{
@@ -113,14 +113,20 @@ class WCFM_Event_Controller {
 			$index = 0;
 			$wcfm_event_json_arr = array();
 			foreach($wcfm_event_array as $wcfm_event_single) {
-				
+
+				if ( get_the_post_thumbnail_url( $wcfm_event_single->ID ) ) {
+					$f_image = '<img width="40" height="40" class="attachment-thumbnail size-thumbnail wp-post-image" src="' . get_the_post_thumbnail_url( $wcfm_event_single->ID ) . '" />';
+				} else {
+					$f_image = '';
+				}
+
 				// Thumb
 				if( apply_filters( 'wcfm_is_allow_edit_event', true ) ) {
-					$wcfm_event_json_arr[$index][] =  '<a href="' . get_wcfm_cpt_manage_url( 'event', $wcfm_event_single->ID ) . '"><img width="40" height="40" class="attachment-thumbnail size-thumbnail wp-post-image" src="' . get_the_post_thumbnail_url( $wcfm_event_single->ID ) . '" /></a>';
+					$wcfm_event_json_arr[$index][] =  '<a href="' . get_wcfm_cpt_manage_url( 'event', $wcfm_event_single->ID ) . '">' . $f_image . '</a>';
 				} else {
-					$wcfm_event_json_arr[$index][] =  '<img width="40" height="40" class="attachment-thumbnail size-thumbnail wp-post-image" src="' . get_the_post_thumbnail_url( $wcfm_event_single->ID ) . '" />';
+					$wcfm_event_json_arr[$index][] = $f_image;
 				}
-				
+
 				// Title
 				if( apply_filters( 'wcfm_is_allow_edit_event', true ) ) {
 					$wcfm_event_json_arr[$index][] =  '<a href="' . get_wcfm_cpt_manage_url( 'event', $wcfm_event_single->ID ) . '" class="wcfm_event_title wcfm_dashboard_item_title">' . $wcfm_event_single->post_title . '</a>';
@@ -133,17 +139,17 @@ class WCFM_Event_Controller {
 						$wcfm_event_json_arr[$index][] =  apply_filters( 'wcfm_event_title_dashboard', $wcfm_event_single->post_title, $wcfm_event_single->ID );
 					}
 				}
-				
+
 				// Status
 				if( $wcfm_event_single->post_status == 'publish' ) {
 					$wcfm_event_json_arr[$index][] =  '<span class="event-status event-status-' . $wcfm_event_single->post_status . '">' . __( 'Published', 'wcfm-cpt' ) . '</span>';
 				} else {
 					$wcfm_event_json_arr[$index][] =  '<span class="event-status event-status-' . $wcfm_event_single->post_status . '">' . __( ucfirst( $wcfm_event_single->post_status ), 'wcfm-cpt' ) . '</span>';
 				}
-				
+
 				// Views
 				$wcfm_event_json_arr[$index][] =  '<span class="view_count">' . (int) get_post_meta( $wcfm_event_single->ID, '_wcfm_event_views', true ) . '</span>';
-				
+
 				// Taxonomies
 				$taxonomies = '';
 				$product_taxonomies = get_object_taxonomies( 'event', 'objects' );
@@ -166,10 +172,10 @@ class WCFM_Event_Controller {
 						}
 					}
 				}
-				
+
 				if( !$taxonomies ) $taxonomies = '&ndash;';
 				$wcfm_event_json_arr[$index][] =  $taxonomies;
-				
+
 				// Author
 				$author = get_user_by( 'id', $wcfm_event_single->post_author );
 				if( $author ) {
@@ -177,13 +183,13 @@ class WCFM_Event_Controller {
 				} else {
 					$wcfm_event_json_arr[$index][] =  '&ndash;';
 				}
-				
+
 				// Date
 				$wcfm_event_json_arr[$index][] =  date_i18n( wc_date_format(), strtotime($wcfm_event_single->post_date) );
-				
+
 				// Action
 				$actions = '<a class="wcfm-action-icon" target="_blank" href="' . get_permalink( $wcfm_event_single->ID ) . '"><span class="fa fa-eye text_tip" data-tip="' . esc_attr__( 'View', 'wcfm-cpt' ) . '"></span></a>';
-				
+
 				if( $wcfm_event_single->post_status == 'publish' ) {
 					$actions .= ( apply_filters( 'wcfm_is_allow_edit_event', true ) ) ? '<a class="wcfm-action-icon" href="' . get_wcfm_cpt_manage_url( 'event', $wcfm_event_single->ID ) . '"><span class="fa fa-edit text_tip" data-tip="' . esc_attr__( 'Edit', 'wcfm-cpt' ) . '"></span></a>' : '';
 					$actions .= ( apply_filters( 'wcfm_is_allow_delete_event', true ) ) ? '<a class="wcfm-action-icon wcfm_event_delete" href="#" data-eventid="' . $wcfm_event_single->ID . '"><span class="fa fa-trash-alt text_tip" data-tip="' . esc_attr__( 'Delete', 'wcfm-cpt' ) . '"></span></a>' : '';
@@ -191,12 +197,12 @@ class WCFM_Event_Controller {
 					$actions .= ( apply_filters( 'wcfm_is_allow_edit_event', true ) ) ? '<a class="wcfm-action-icon" href="' . get_wcfm_cpt_manage_url( 'event', $wcfm_event_single->ID ) . '"><span class="fa fa-edit text_tip" data-tip="' . esc_attr__( 'Edit', 'wcfm-cpt' ) . '"></span></a>' : '';
 					$actions .= ( apply_filters( 'wcfm_is_allow_delete_event', true ) ) ? '<a class="wcfm_event_delete wcfm-action-icon" href="#" data-eventid="' . $wcfm_event_single->ID . '"><span class="fa fa-trash-alt text_tip" data-tip="' . esc_attr__( 'Delete', 'wcfm-cpt' ) . '"></span></a>' : '';
 				}
-				
+
 				$wcfm_event_json_arr[$index][] =  apply_filters ( 'wcfm_event_actions',  $actions, $wcfm_event_single );
-				
-				
+
+
 				$index++;
-			}												
+			}
 		}
 
 		$wcfm_event_json_array['data'] = $wcfm_event_json_arr;
