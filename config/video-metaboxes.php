@@ -19,16 +19,16 @@ return array(
 
 	'_wvc_video_post_preview' => array(
 		'label'       => esc_html__( 'Video Preview', '%TEXTDOMAIN%' ),
-		'type'        => 'text', // WCFM does not support 'video', so we use 'text' for URL input
-		'class'       => 'wcfm-text',
+		'type'        => 'file',
+		'class'       => 'wcfm_file_upload',
 		'label_class' => 'wcfm_title',
 		'hints'       => esc_html__( 'An mp4, Vimeo, or YouTube URL to use as preview in the video post slider.', '%TEXTDOMAIN%' ),
 	),
 
 	'_video_preview_high_res' => array(
 		'label'       => esc_html__( 'HD Video Preview', '%TEXTDOMAIN%' ),
-		'type'        => 'text', // same note as above
-		'class'       => 'wcfm-text',
+		'type'        => 'file',
+		'class'       => 'wcfm_file_upload',
 		'label_class' => 'wcfm_title',
 		'hints'       => esc_html__( 'A better quality video preview for the video scroller.', '%TEXTDOMAIN%' ),
 	),
