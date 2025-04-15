@@ -24,3 +24,31 @@
 .wcfm-collapse-content  strong{
     color:black;
 }
+
+.wcfm_form_simple_submit_wrapper input[type='submit'] {
+	all: unset;
+	max-height: 50px;
+	margin-right: 10px!important;
+	padding: 12px !important;
+	height: auto;
+}
+
+.wcfm_form_simple_submit_wrapper input[type='submit']:hover {
+	background-color: #17a2b8;
+}
+
+#wcfm-main-contentainer input.wcfm_submit_button:hover,
+#wcfm-main-contentainer button.wcfm_submit_button:hover,
+#wcfm-main-contentainer a.wcfm_submit_button:hover,
+#wcfm-main-contentainer .wcfm_add_category_bt:hover,
+#wcfm-main-contentainer .wcfm_add_attribute:hover,
+#wcfm-main-contentainer .wcfm_add_attribute_term:hover,
+#wcfm-main-contentainer input.upload_button:hover,
+#wcfm-main-contentainer input.remove_button:hover,
+.multi_input_block_manupulate:hover,
+#wcfm-main-contentainer .dataTables_wrapper .dt-buttons .dt-button:hover,
+#wcfm_vendor_approval_response_button:hover,
+#wcfm_bulk_edit_button:hover,
+#wcfm_enquiry_submit_button:hover{
+	background-color: #17a2b8!important;
+}

@@ -21,7 +21,7 @@ class Wolf_WCFM_Integration {
 		$this->define_constants();
 
 		add_action( 'wcfm_init', array( $this, 'init' ), 20 );
-		add_action( 'wp_enqueue_scripts', array( &$this, 'load_default_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( &$this, 'load_default_styles' ), 99 );
 	}
 
 	public function init() {
