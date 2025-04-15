@@ -80,7 +80,7 @@ class Wolf_WCFM_Integration {
 	public function load_default_styles() {
 
 		global $WCFM;
-		wp_enqueue_style( 'wcfm_base_css', $this->plugin_url() . 'css/wcfm-styles.css', array(), $WCFM->version );
+		wp_enqueue_style( 'wcfm_base_css', $this->plugin_url() . '/css/wcfm-styles.css', array(), $WCFM->version );
 	}
 
 	/**
