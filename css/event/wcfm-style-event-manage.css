@@ -478,6 +478,12 @@ ul.event_taxonomy_checklist li {
     font-weight: 500;
 }
 
+#wcfm_event_manager_form_custom_expander p.wcfm_title,
+#wcfm_event_manager_form_custom_expander span.wcfm_title{
+	width: 100%;
+	display: block;
+}
+
 @media only screen and (max-width: 768px) {
     .wcfm_event_type {
         width: 100% !important;
