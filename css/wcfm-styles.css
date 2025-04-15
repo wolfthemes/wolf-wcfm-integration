@@ -52,3 +52,7 @@
 #wcfm_enquiry_submit_button:hover{
 	background-color: #17a2b8!important;
 }
+
+input[type=checkbox].wcfm-checkbox{
+	border-color:#ccc !important;
+}
