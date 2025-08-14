@@ -145,7 +145,30 @@ $new_work_id = $wcfm_work_manage_form_data['work_id'];
 					update_post_meta( $new_work_id, 'custom_4', '' );
 				}
 
-				  do_action( 'after_wcfm_work_manage_meta_save', $new_work_id, $wcfm_work_manage_form_data );
+	$metaboxes = array(
+						'_post_work_alt_title',
+						'_work_video_bg',
+						'_work_masonry_img',
+						'_work_client',
+						'_work_link',
+						'_post_width',
+						'_post_layout',
+						'_post_work_info_position',
+
+				);
+
+				foreach ($metaboxes as $metabox) {
+
+					if (isset($wcfm_work_manage_form_data[$metabox]) && !empty($wcfm_work_manage_form_data[$metabox])) {
+
+						update_post_meta( $new_work_id, $metabox, $wcfm_work_manage_form_data[$metabox] );
+					} else {
+
+						update_post_meta( $new_work_id, $metabox, '' );
+					}
+				}
+
+				do_action( 'after_wcfm_work_manage_meta_save', $new_work_id, $wcfm_work_manage_form_data );
 
 				  // Notify Admin on New work Creation
 				if ( $is_publish ) {

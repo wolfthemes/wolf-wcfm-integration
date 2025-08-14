@@ -11,7 +11,8 @@ return array(
 
 	'_work_video_bg' => array(
 		'label'       => esc_html__( 'Entry Video Background', '%TEXTDOMAIN%' ),
-		'type'        => 'file',
+		'type'        => 'upload',
+		'mime'        => 'video',
 		'class'       => 'wcfm_file_upload',
 		'label_class' => 'wcfm_title',
 		'hints'       => esc_html__( 'A video background to show in the work grid if the video format is used. By default, the first video in the post is used.', '%TEXTDOMAIN%' ),
@@ -20,6 +21,7 @@ return array(
 	'_work_masonry_img' => array(
 		'label'       => esc_html__( 'Masonry Thumbnail', '%TEXTDOMAIN%' ),
 		'type'        => 'upload',
+		'mime'        => 'image',
 		'class'       => 'wcfm_gallery_upload',
 		'label_class' => 'wcfm_title',
 		'hints'       => esc_html__( 'An optional alternative featured image to use in the masonry layout.', '%TEXTDOMAIN%' ),
