@@ -188,7 +188,7 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 								// 					}
 								//
 								?>
-								<p class="wcfm_title"><strong><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $video_taxonomy->name; ?>"><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></label>
+								 					<p class="wcfm_title"><strong><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $video_taxonomy->name; ?>"><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></label>
 								 					<select id="<?php echo $video_taxonomy->name; ?>" name="video_custom_taxonomies[<?php echo $video_taxonomy->name; ?>][]" class="wcfm-select video_taxonomies " multiple="multiple" style="width: 100%; margin-bottom: 10px;">
 
 								<?php
@@ -293,22 +293,22 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 
 							if ( $wcfm_is_allow_tags = apply_filters( 'wcfm_is_allow_tags', true ) ) {
 
-									// if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
-									// 	$video_taxonomies = get_object_taxonomies( 'video', 'objects' );
-									// 	if( !empty( $video_taxonomies ) ) {
-									// 		foreach( $video_taxonomies as $video_taxonomy ) {
-									// 			if( !in_array( $video_taxonomy->name, array( 'post_tag' ) ) ) {
-									// 				if( $video_taxonomy->public && $video_taxonomy->show_ui && $video_taxonomy->meta_box_cb && !$video_taxonomy->hierarchical ) {
-									// 					// Fetching Saved Values
-									// 					$taxonomy_values_arr = wp_get_post_terms($video_id, $video_taxonomy->name, array("fields" => "names"));
-									// 					$taxonomy_values = implode(',', $taxonomy_values_arr);
-									// 					$WCFM->wcfm_fields->wcfm_generate_form_field( array(  $video_taxonomy->name => array( 'label' => $video_taxonomy->label, 'name' => 'video_custom_taxonomies_flat[' . $video_taxonomy->name . '][]', 'type' => 'textarea', 'class' => 'wcfm-textarea  wcfm_full_ele', 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $taxonomy_values, 'placeholder' => __('Separate video ' . $video_taxonomy->label . ' with commas', 'wcfm-cpt') )
-									// 																											) );
-									// 				}
-									// 			}
-									// 		}
-									// 	}
-									// }
+									 if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
+									 	$video_taxonomies = get_object_taxonomies( 'video', 'objects' );
+									 	if( !empty( $video_taxonomies ) ) {
+									 		foreach( $video_taxonomies as $video_taxonomy ) {
+									 			if( !in_array( $video_taxonomy->name, array( 'post_tag' ) ) ) {
+									 				if( $video_taxonomy->public && $video_taxonomy->show_ui && $video_taxonomy->meta_box_cb && !$video_taxonomy->hierarchical ) {
+									 					// Fetching Saved Values
+									 					$taxonomy_values_arr = wp_get_post_terms($video_id, $video_taxonomy->name, array("fields" => "names"));
+									 					$taxonomy_values = implode(',', $taxonomy_values_arr);
+									 					$WCFM->wcfm_fields->wcfm_generate_form_field( array(  $video_taxonomy->name => array( 'label' => $video_taxonomy->label, 'name' => 'video_custom_taxonomies_flat[' . $video_taxonomy->name . '][]', 'type' => 'textarea', 'class' => 'wcfm-textarea  wcfm_full_ele', 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $taxonomy_values, 'placeholder' => __('Separate video ' . $video_taxonomy->label . ' with commas', 'wcfm-cpt') )
+									 																											) );
+									 				}
+									 			}
+									 		}
+									 	}
+									 }
 							}
 							?>
 						<?php } ?>
