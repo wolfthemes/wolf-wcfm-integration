@@ -10,27 +10,27 @@
  */
 
 class WCFM_Event_Manage_Controller {
-	
+
 	public function __construct() {
 		global $WCFM;
-		
+
 		$this->processing();
 	}
-	
+
 	public function processing() {
 		global $WCFM, $wpdb, $_POST;
-		
+
 		$wcfm_event_manage_form_data = array();
 	  parse_str($_POST['wcfm_event_manage_form'], $wcfm_event_manage_form_data);
 	  //print_r($wcfm_event_manage_form_data);
 	  $wcfm_event_manage_messages = get_wcfm_cpt_manager_messages();
 	  $has_error                  = false;
-	  
+
 		if (isset($wcfm_event_manage_form_data['title']) && !empty($wcfm_event_manage_form_data['title'])) {
 		  $is_update       = false;
 		  $is_publish      = false;
 		  $current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
-		
+
 		  // WCFM form custom validation filter
 		  $custom_validation_results = apply_filters( 'wcfm_form_custom_validation', $wcfm_event_manage_form_data, 'event_manage' );
 			if (isset($custom_validation_results['has_error']) && !empty($custom_validation_results['has_error'])) {
@@ -40,7 +40,7 @@ $custom_validation_error = $custom_validation_results['message']; }
 				echo '{"status": false, "message": "' . $custom_validation_error . '"}';
 				die;
 			}
-						  
+
 			if (isset($_POST['status']) && ( $_POST['status'] == 'draft' )) {
 				$event_status = 'draft';
 			} else {
@@ -50,7 +50,7 @@ $custom_validation_error = $custom_validation_results['message']; }
 $event_status = 'pending';
 				}
 			}
-		
+
 		  // Creating new event
 			$new_event = apply_filters( 'wcfm_event_content_before_save', array(
 				'post_title'   => wc_clean( $wcfm_event_manage_form_data['title'] ),
@@ -61,7 +61,7 @@ $event_status = 'pending';
 				'post_author'  => $current_user_id,
 				'post_name' => sanitize_title($wcfm_event_manage_form_data['title'])
 			), $wcfm_event_manage_form_data );
-			
+
 			if (isset($wcfm_event_manage_form_data['event_id']) && $wcfm_event_manage_form_data['event_id'] == 0) {
 				if ($event_status != 'draft') {
 					$is_publish = true;
@@ -81,13 +81,13 @@ $event_status = 'pending';
 				}
 				$new_event_id = wp_update_post( $new_event, true );
 			}
-			
+
 			if (!is_wp_error($new_event_id)) {
 				// For Update
 				if ($is_update) {
 $new_event_id = $wcfm_event_manage_form_data['event_id'];
 				}
-				
+
 				// Set event Custom Taxonomies
 				if (isset($wcfm_event_manage_form_data['product_custom_taxonomies']) && !empty($wcfm_event_manage_form_data['product_custom_taxonomies'])) {
 					foreach ($wcfm_event_manage_form_data['product_custom_taxonomies'] as $taxonomy => $taxonomy_values) {
@@ -104,7 +104,7 @@ $new_event_id = $wcfm_event_manage_form_data['event_id'];
 						}
 					}
 				}
-				
+
 				  // Set event Custom Taxonomies Flat
 				if (isset($wcfm_event_manage_form_data['event_custom_taxonomies_flat']) && !empty($wcfm_event_manage_form_data['event_custom_taxonomies_flat'])) {
 					foreach ($wcfm_event_manage_form_data['event_custom_taxonomies_flat'] as $taxonomy => $taxonomy_values) {
@@ -113,7 +113,7 @@ $new_event_id = $wcfm_event_manage_form_data['event_id'];
 						}
 					}
 				}
-				
+
 				  // Set event Featured Image
 				if (isset($wcfm_event_manage_form_data['featured_img']) && !empty($wcfm_event_manage_form_data['featured_img'])) {
 					$featured_img_id = $WCFM->wcfm_get_attachment_id($wcfm_event_manage_form_data['featured_img']);
@@ -122,41 +122,82 @@ $new_event_id = $wcfm_event_manage_form_data['event_id'];
 				} elseif (isset($wcfm_event_manage_form_data['featured_img']) && empty($wcfm_event_manage_form_data['featured_img'])) {
 					delete_post_thumbnail( $new_event_id );
 				}
-				
-				  // Custom Fields 
-				if (isset($wcfm_event_manage_form_data['custom_1']) && !empty($wcfm_event_manage_form_data['custom_1'])) {
-					update_post_meta( $new_event_id, 'custom_1', $wcfm_event_manage_form_data['custom_1'] );
+
+				  // Custom Fields
+				if (isset($wcfm_event_manage_form_data['_wolf_event_start_date']) && !empty($wcfm_event_manage_form_data['_wolf_event_start_date'])) {
+					update_post_meta( $new_event_id, '_wolf_event_start_date', $wcfm_event_manage_form_data['_wolf_event_start_date'] );
 				} else {
-					update_post_meta( $new_event_id, 'custom_1', '' );
+					update_post_meta( $new_event_id, '_wolf_event_start_date', '' );
 				}
-				if (isset($wcfm_event_manage_form_data['custom_2']) && !empty($wcfm_event_manage_form_data['custom_2'])) {
-					update_post_meta( $new_event_id, 'custom_2', $wcfm_event_manage_form_data['custom_2'] );
+				if (isset($wcfm_event_manage_form_data['_wolf_event_end_date']) && !empty($wcfm_event_manage_form_data['_wolf_event_end_date'])) {
+					update_post_meta( $new_event_id, '_wolf_event_end_date', $wcfm_event_manage_form_data['_wolf_event_end_date'] );
 				} else {
-					update_post_meta( $new_event_id, 'custom_2', '' );
+					update_post_meta( $new_event_id, '_wolf_event_end_date', '' );
 				}
-				if (isset($wcfm_event_manage_form_data['custom_3']) && !empty($wcfm_event_manage_form_data['custom_3'])) {
-					update_post_meta( $new_event_id, 'custom_3', $wcfm_event_manage_form_data['custom_3'] );
+				if (isset($wcfm_event_manage_form_data['_wolf_event_venue']) && !empty($wcfm_event_manage_form_data['_wolf_event_venue'])) {
+					update_post_meta( $new_event_id, '_wolf_event_venue', $wcfm_event_manage_form_data['_wolf_event_venue'] );
 				} else {
-					update_post_meta( $new_event_id, 'custom_3', '' );
+					update_post_meta( $new_event_id, '_wolf_event_venue', '' );
 				}
 				if (isset($wcfm_event_manage_form_data['custom_4']) && !empty($wcfm_event_manage_form_data['custom_4'])) {
 					update_post_meta( $new_event_id, 'custom_4', $wcfm_event_manage_form_data['custom_4'] );
 				} else {
 					update_post_meta( $new_event_id, 'custom_4', '' );
 				}
-				
+
+				$metaboxes = array(
+						'_wolf_event_location',
+						'_wolf_event_city',
+						'_wolf_event_country',
+						'_wolf_event_country_short',
+						'_wolf_event_state',
+						'_wolf_event_time',
+						'_wolf_event_address',
+						'_wolf_event_zip',
+						'_wolf_event_phone',
+						'_wolf_event_email',
+						'_wolf_event_website',
+						'_wolf_event_map',
+						'_wolf_event_fb',
+						'_wolf_event_bit',
+						'_wolf_event_ticket',
+						'_wolf_event_price',
+						'_wolf_event_currency',
+
+				);
+
+				foreach ($metaboxes as $metabox) {
+						if (isset($wcfm_event_manage_form_data[$metabox]) && !empty($wcfm_event_manage_form_data[$metabox])) {
+						update_post_meta( $new_event_id, $metabox, $wcfm_event_manage_form_data[$metabox] );
+					} else {
+						update_post_meta( $new_event_id, $metabox, '' );
+					}
+
+				}
+
+				$checkbox_fields = [ '_wolf_event_free', '_wolf_event_soldout', '_wolf_event_cancel' ]; // list all checkbox keys
+
+				foreach ( $checkbox_fields as $cb_key ) {
+					if ( isset( $wcfm_event_manage_form_data[ $cb_key ] ) ) {
+								update_post_meta( $new_event_id, $cb_key, 'yes' );
+						} else {
+								update_post_meta( $new_event_id, $cb_key, '0' );
+						}
+
+				}
+
 				  do_action( 'after_wcfm_event_manage_meta_save', $new_event_id, $wcfm_event_manage_form_data );
-				
+
 				  // Notify Admin on New event Creation
 				if ( $is_publish ) {
 					// Have to test before adding action
-				} 
-				
+				}
+
 				if (!$has_error) {
 					if ( get_post_status( $new_event_id ) == 'publish' ) {
 						if (!$has_error) {
 echo '{"status": true, "message": "' . apply_filters( 'event_published_message', $wcfm_event_manage_messages['cpt_published'], $new_event_id ) . '", "redirect": "' . apply_filters( 'wcfm_event_save_publish_redirect', get_wcfm_cpt_manage_url( 'event', $new_event_id ), $new_event_id ) . '", "id": "' . $new_event_id . '", "title": "' . get_the_title( $new_event_id ) . '"}';
-						}	
+						}
 					} elseif ( get_post_status( $new_event_id ) == 'pending' ) {
 						if (!$has_error) {
 echo '{"status": true, "message": "' . apply_filters( 'event_pending_message', $wcfm_event_manage_messages['cpt_pending'], $new_event_id ) . '", "redirect": "' . apply_filters( 'wcfm_event_save_pending_redirect', get_wcfm_cpt_manage_url( 'event', $new_event_id ), $new_event_id ) . '", "id": "' . $new_event_id . '", "title": "' . get_the_title( $new_event_id ) . '"}';

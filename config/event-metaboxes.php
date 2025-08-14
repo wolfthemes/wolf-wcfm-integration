@@ -1,5 +1,4 @@
 <?php
-
 return array(
 	'_wolf_event_start_date' => array(
 		'label'       => esc_html__( 'Date', 'wolf-events' ),
@@ -149,21 +148,41 @@ return array(
 		'label_class' => 'wcfm_title',
 	),
 
+	/* '_wolf_event_free_hidden' => array( */
+	/* 	'type'        => 'hidden', */
+	/* 	'value'       => '0', */
+	/* 	'name'  => '_wolf_event_free', // same name as checkbox */
+	/* ), */
+
 	'_wolf_event_free' => array(
 		'label'       => esc_html__( 'Free', 'wolf-events' ),
 		'type'        => 'checkbox',
 		'class'       => 'wcfm-checkbox',
 		'label_class' => 'wcfm_title',
+
 		'value'       => 'yes',
+/* 'dfvalue' => ( get_post_meta( $post_id, '_wolf_event_free', true ) === 'yes' ) ? 'yes' : '', */
 	),
 
+	/**/
+	/* '_wolf_event_soldout_hidden' => array( */
+	/* 	'type'        => 'hidden', */
+	/* 	'value'       => '0', */
+	/* 	'name'  => '_wolf_event_soldout', // same name as checkbox */
+	/* ), */
 	'_wolf_event_soldout' => array(
 		'label'       => esc_html__( 'Sold Out', 'wolf-events' ),
 		'type'        => 'checkbox',
 		'class'       => 'wcfm-checkbox',
 		'label_class' => 'wcfm_title',
 		'value'       => 'yes',
+/* 'dfvalue' => ( get_post_meta( $post_id, '_wolf_event_soldout', true ) === 'yes' ) ? 'yes' : '', */
 	),
+/* '_wolf_event_cancel_hidden' => array( */
+/* 		'type'        => 'hidden', */
+/* 		'value'       => '0', */
+/* 		'name'  => '_wolf_event_soldout', // same name as checkbox */
+/* 	), */
 
 	'_wolf_event_cancel' => array(
 		'label'       => esc_html__( 'Cancelled', 'wolf-events' ),
@@ -171,5 +190,6 @@ return array(
 		'class'       => 'wcfm-checkbox',
 		'label_class' => 'wcfm_title',
 		'value'       => 'yes',
+/* 'dfvalue' => ( get_post_meta( $post_id, '_wolf_event_cancel', true ) === 'yes' ) ? 'yes' : '', */
 	),
 );

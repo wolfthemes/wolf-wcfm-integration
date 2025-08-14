@@ -20,7 +20,16 @@ class Wolf_WCFM_Metaboxes {
 		if (!$this->post_id || empty($this->fields)) return;
 
 		foreach ($this->fields as $key => $field) {
-			$this->fields[$key]['value'] = get_post_meta($this->post_id, $key, true);
+			$meta_value = get_post_meta($this->post_id, $key, true);
+
+			// Handle checkbox fields specifically
+			if (isset($field['type']) && $field['type'] === 'checkbox') {
+				// For checkboxes, set dfvalue based on saved meta value
+				$this->fields[$key]['dfvalue'] = ($meta_value === 'yes') ? 'yes' : '';
+			} else {
+				// For other field types, set the value
+				$this->fields[$key]['value'] = $meta_value;
+			}
 		}
 	}
 
@@ -39,4 +48,3 @@ class Wolf_WCFM_Metaboxes {
 		$WCFM->wcfm_fields->wcfm_generate_form_field($this->get_fields());
 	}
 }
-
