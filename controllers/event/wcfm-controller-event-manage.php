@@ -124,28 +124,10 @@ $new_event_id = $wcfm_event_manage_form_data['event_id'];
 				}
 
 				  // Custom Fields
-				if (isset($wcfm_event_manage_form_data['_wolf_event_start_date']) && !empty($wcfm_event_manage_form_data['_wolf_event_start_date'])) {
-					update_post_meta( $new_event_id, '_wolf_event_start_date', $wcfm_event_manage_form_data['_wolf_event_start_date'] );
-				} else {
-					update_post_meta( $new_event_id, '_wolf_event_start_date', '' );
-				}
-				if (isset($wcfm_event_manage_form_data['_wolf_event_end_date']) && !empty($wcfm_event_manage_form_data['_wolf_event_end_date'])) {
-					update_post_meta( $new_event_id, '_wolf_event_end_date', $wcfm_event_manage_form_data['_wolf_event_end_date'] );
-				} else {
-					update_post_meta( $new_event_id, '_wolf_event_end_date', '' );
-				}
-				if (isset($wcfm_event_manage_form_data['_wolf_event_venue']) && !empty($wcfm_event_manage_form_data['_wolf_event_venue'])) {
-					update_post_meta( $new_event_id, '_wolf_event_venue', $wcfm_event_manage_form_data['_wolf_event_venue'] );
-				} else {
-					update_post_meta( $new_event_id, '_wolf_event_venue', '' );
-				}
-				if (isset($wcfm_event_manage_form_data['custom_4']) && !empty($wcfm_event_manage_form_data['custom_4'])) {
-					update_post_meta( $new_event_id, 'custom_4', $wcfm_event_manage_form_data['custom_4'] );
-				} else {
-					update_post_meta( $new_event_id, 'custom_4', '' );
-				}
-
 				$metaboxes = array(
+						'_wolf_event_start_date',
+						'_wolf_event_end_date',
+						'_wolf_event_venue',
 						'_wolf_event_location',
 						'_wolf_event_city',
 						'_wolf_event_country',
@@ -167,7 +149,12 @@ $new_event_id = $wcfm_event_manage_form_data['event_id'];
 				);
 
 				foreach ($metaboxes as $metabox) {
-						if (isset($wcfm_event_manage_form_data[$metabox]) && !empty($wcfm_event_manage_form_data[$metabox])) {
+					if (isset($wcfm_event_manage_form_data[$metabox]) && !empty($wcfm_event_manage_form_data[$metabox])) {
+
+						if ( '_wolf_event_start_date' === $metabox || '_wolf_event_end_date' === $metabox ) {
+							$wcfm_event_manage_form_data[$metabox] = str_replace( '/', '-',  $wcfm_event_manage_form_data[$metabox] );
+						}
+
 						update_post_meta( $new_event_id, $metabox, $wcfm_event_manage_form_data[$metabox] );
 					} else {
 						update_post_meta( $new_event_id, $metabox, '' );
