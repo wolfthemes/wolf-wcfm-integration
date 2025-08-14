@@ -8,6 +8,10 @@
     padding: 0 !important;
 }
 
+.wcfm-dashboard-page #back-to-top {
+	display: none!important;
+}
+
 #wcfm-main-content {
     max-width: none;
     padding: 0;

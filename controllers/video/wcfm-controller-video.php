@@ -153,6 +153,7 @@ class WCFM_Video_Controller {
 				// Taxonomies
 				$taxonomies = '';
 				$product_taxonomies = get_object_taxonomies( 'video', 'objects' );
+/* print_r( $product_taxonomies ); */
 				if( !empty( $product_taxonomies ) ) {
 					foreach( $product_taxonomies as $product_taxonomy ) {
 						if( !in_array( $product_taxonomy->name, array( 'post_tag' ) ) ) {

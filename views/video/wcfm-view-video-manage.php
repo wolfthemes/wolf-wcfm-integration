@@ -188,9 +188,9 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 								// 					}
 								//
 								?>
-								// 					<p class="wcfm_title"><strong><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $video_taxonomy->name; ?>"><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></label>
-								// 					<select id="<?php echo $video_taxonomy->name; ?>" name="video_custom_taxonomies[<?php echo $video_taxonomy->name; ?>][]" class="wcfm-select video_taxonomies " multiple="multiple" style="width: 100%; margin-bottom: 10px;">
-								//
+								<p class="wcfm_title"><strong><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $video_taxonomy->name; ?>"><?php _e( $video_taxonomy->label, 'wcfm-cpt' ); ?></label>
+								 					<select id="<?php echo $video_taxonomy->name; ?>" name="video_custom_taxonomies[<?php echo $video_taxonomy->name; ?>][]" class="wcfm-select video_taxonomies " multiple="multiple" style="width: 100%; margin-bottom: 10px;">
+
 								<?php
 								// 							$video_taxonomy_terms   = get_terms( $video_taxonomy->name, 'orderby=name&hide_empty=0&parent=0' );
 								// 							if ( $video_taxonomy_terms ) {
@@ -198,8 +198,8 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 								// 							}
 								//
 								?>
-								// 					</select>
-								//
+								 					</select>
+
 								<?php
 								// 				}
 								// 			}
@@ -234,8 +234,9 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 							<div class="wcfm_video_manager_content_fields">
 								<?php
 								$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_video_manage_fields_content', array(
-									//"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
-									'description' => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
+						'description' => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
+	"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
+
 									'video_id' => array('type' => 'hidden', 'value' => $video_id)
 								), $video_id ) );
 								?>
@@ -322,8 +323,9 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 							<?php
 							$rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
 							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_video_manage_fields_content', array(
-								//"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor , 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
-								'description' => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
+															'description' => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
+	"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor , 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
+
 								'video_id' => array('type' => 'hidden', 'value' => $video_id)
 							), $video_id ) );
 							?>

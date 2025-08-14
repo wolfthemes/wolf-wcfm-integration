@@ -10,27 +10,27 @@
  */
 
 class WCFM_Video_Manage_Controller {
-	
+
 	public function __construct() {
 		global $WCFM;
-		
+
 		$this->processing();
 	}
-	
+
 	public function processing() {
 		global $WCFM, $wpdb, $_POST;
-		
+
 		$wcfm_video_manage_form_data = array();
 	  parse_str($_POST['wcfm_video_manage_form'], $wcfm_video_manage_form_data);
 	  //print_r($wcfm_video_manage_form_data);
 	  $wcfm_video_manage_messages = get_wcfm_cpt_manager_messages();
 	  $has_error                  = false;
-	  
+
 		if (isset($wcfm_video_manage_form_data['title']) && !empty($wcfm_video_manage_form_data['title'])) {
 		  $is_update       = false;
 		  $is_publish      = false;
 		  $current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
-		
+
 		  // WCFM form custom validation filter
 		  $custom_validation_results = apply_filters( 'wcfm_form_custom_validation', $wcfm_video_manage_form_data, 'video_manage' );
 			if (isset($custom_validation_results['has_error']) && !empty($custom_validation_results['has_error'])) {
@@ -40,7 +40,7 @@ $custom_validation_error = $custom_validation_results['message']; }
 				echo '{"status": false, "message": "' . $custom_validation_error . '"}';
 				die;
 			}
-						  
+
 			if (isset($_POST['status']) && ( $_POST['status'] == 'draft' )) {
 				$video_status = 'draft';
 			} else {
@@ -50,7 +50,7 @@ $custom_validation_error = $custom_validation_results['message']; }
 $video_status = 'pending';
 				}
 			}
-		
+
 		  // Creating new video
 			$new_video = apply_filters( 'wcfm_video_content_before_save', array(
 				'post_title'   => wc_clean( $wcfm_video_manage_form_data['title'] ),
@@ -61,7 +61,7 @@ $video_status = 'pending';
 				'post_author'  => $current_user_id,
 				'post_name' => sanitize_title($wcfm_video_manage_form_data['title'])
 			), $wcfm_video_manage_form_data );
-			
+
 			if (isset($wcfm_video_manage_form_data['video_id']) && $wcfm_video_manage_form_data['video_id'] == 0) {
 				if ($video_status != 'draft') {
 					$is_publish = true;
@@ -81,13 +81,13 @@ $video_status = 'pending';
 				}
 				$new_video_id = wp_update_post( $new_video, true );
 			}
-			
+
 			if (!is_wp_error($new_video_id)) {
 				// For Update
 				if ($is_update) {
 $new_video_id = $wcfm_video_manage_form_data['video_id'];
 				}
-				
+
 				// Set video Custom Taxonomies
 				if (isset($wcfm_video_manage_form_data['product_custom_taxonomies']) && !empty($wcfm_video_manage_form_data['product_custom_taxonomies'])) {
 					foreach ($wcfm_video_manage_form_data['product_custom_taxonomies'] as $taxonomy => $taxonomy_values) {
@@ -104,16 +104,16 @@ $new_video_id = $wcfm_video_manage_form_data['video_id'];
 						}
 					}
 				}
-				
+
 				  // Set video Custom Taxonomies Flat
-				if (isset($wcfm_video_manage_form_data['video_custom_taxonomies_flat']) && !empty($wcfm_video_manage_form_data['video_custom_taxonomies_flat'])) {
+				if (isset($wcfm_video_manage_form_data['video_tag']) && !empty($wcfm_video_manage_form_data['video_custom_taxonomies_flat'])) {
 					foreach ($wcfm_video_manage_form_data['video_custom_taxonomies_flat'] as $taxonomy => $taxonomy_values) {
 						if ( !empty( $taxonomy_values ) ) {
 							wp_set_post_terms( $new_video_id, $taxonomy_values, $taxonomy );
 						}
 					}
 				}
-				
+
 				  // Set video Featured Image
 				if (isset($wcfm_video_manage_form_data['featured_img']) && !empty($wcfm_video_manage_form_data['featured_img'])) {
 					$featured_img_id = $WCFM->wcfm_get_attachment_id($wcfm_video_manage_form_data['featured_img']);
@@ -122,41 +122,47 @@ $new_video_id = $wcfm_video_manage_form_data['video_id'];
 				} elseif (isset($wcfm_video_manage_form_data['featured_img']) && empty($wcfm_video_manage_form_data['featured_img'])) {
 					delete_post_thumbnail( $new_video_id );
 				}
-				
-				  // Custom Fields 
-				if (isset($wcfm_video_manage_form_data['custom_1']) && !empty($wcfm_video_manage_form_data['custom_1'])) {
-					update_post_meta( $new_video_id, 'custom_1', $wcfm_video_manage_form_data['custom_1'] );
+
+				  // Custom Fields
+				if (isset($wcfm_video_manage_form_data['_video_short_title']) && !empty($wcfm_video_manage_form_data['_video_short_title'])) {
+					update_post_meta( $new_video_id, '_video_short_title', $wcfm_video_manage_form_data['_video_short_title'] );
 				} else {
-					update_post_meta( $new_video_id, 'custom_1', '' );
+					update_post_meta( $new_video_id, '_video_short_title', '' );
 				}
-				if (isset($wcfm_video_manage_form_data['custom_2']) && !empty($wcfm_video_manage_form_data['custom_2'])) {
-					update_post_meta( $new_video_id, 'custom_2', $wcfm_video_manage_form_data['custom_2'] );
+				if (isset($wcfm_video_manage_form_data['_video_tagline']) && !empty($wcfm_video_manage_form_data['_video_tagline'])) {
+					update_post_meta( $new_video_id, '_video_tagline', $wcfm_video_manage_form_data['_video_tagline'] );
 				} else {
-					update_post_meta( $new_video_id, 'custom_2', '' );
+					update_post_meta( $new_video_id, '_video_tagline', '' );
 				}
-				if (isset($wcfm_video_manage_form_data['custom_3']) && !empty($wcfm_video_manage_form_data['custom_3'])) {
-					update_post_meta( $new_video_id, 'custom_3', $wcfm_video_manage_form_data['custom_3'] );
+				if (isset($wcfm_video_manage_form_data['_wvc_video_post_preview']) && !empty($wcfm_video_manage_form_data['_wvc_video_post_preview'])) {
+					update_post_meta( $new_video_id, '_wvc_video_post_preview', $wcfm_video_manage_form_data['_wvc_video_post_preview'] );
 				} else {
-					update_post_meta( $new_video_id, 'custom_3', '' );
+					update_post_meta( $new_video_id, '_wvc_video_post_preview', '' );
 				}
-				if (isset($wcfm_video_manage_form_data['custom_4']) && !empty($wcfm_video_manage_form_data['custom_4'])) {
-					update_post_meta( $new_video_id, 'custom_4', $wcfm_video_manage_form_data['custom_4'] );
+				if (isset($wcfm_video_manage_form_data['_video_preview_high_res']) && !empty($wcfm_video_manage_form_data['_video_preview_high_res'])) {
+					update_post_meta( $new_video_id, '_video_preview_high_res', $wcfm_video_manage_form_data['_video_preview_high_res'] );
 				} else {
-					update_post_meta( $new_video_id, 'custom_4', '' );
+					update_post_meta( $new_video_id, '_video_preview_high_res', '' );
 				}
-				
+
+				if (isset($wcfm_video_manage_form_data['_post_layout']) && !empty($wcfm_video_manage_form_data['_post_layout'])) {
+					update_post_meta( $new_video_id, '_post_layout', $wcfm_video_manage_form_data['_post_layout'] );
+				} else {
+					update_post_meta( $new_video_id, '_post_layout', '' );
+				}
+
 				  do_action( 'after_wcfm_video_manage_meta_save', $new_video_id, $wcfm_video_manage_form_data );
-				
+
 				  // Notify Admin on New video Creation
 				if ( $is_publish ) {
 					// Have to test before adding action
-				} 
-				
+				}
+
 				if (!$has_error) {
 					if ( get_post_status( $new_video_id ) == 'publish' ) {
 						if (!$has_error) {
 echo '{"status": true, "message": "' . apply_filters( 'video_published_message', $wcfm_video_manage_messages['cpt_published'], $new_video_id ) . '", "redirect": "' . apply_filters( 'wcfm_video_save_publish_redirect', get_wcfm_cpt_manage_url( 'video', $new_video_id ), $new_video_id ) . '", "id": "' . $new_video_id . '", "title": "' . get_the_title( $new_video_id ) . '"}';
-						}	
+						}
 					} elseif ( get_post_status( $new_video_id ) == 'pending' ) {
 						if (!$has_error) {
 echo '{"status": true, "message": "' . apply_filters( 'video_pending_message', $wcfm_video_manage_messages['cpt_pending'], $new_video_id ) . '", "redirect": "' . apply_filters( 'wcfm_video_save_pending_redirect', get_wcfm_cpt_manage_url( 'video', $new_video_id ), $new_video_id ) . '", "id": "' . $new_video_id . '", "title": "' . get_the_title( $new_video_id ) . '"}';
