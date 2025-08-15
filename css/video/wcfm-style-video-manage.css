@@ -341,9 +341,11 @@ ul.video_taxonomy_checklist li {
     margin-left: 5px !important;
 }
 
+.video_tag,
+.wcfm_video_manager_gallery_fields textarea,
 .video_tags_ele,
 .wcfm_fetch_tag_cloud {
-    max-width: 214px;
+    max-width: 214px!important;
     margin: auto !important;
     display: block !important;
 }
