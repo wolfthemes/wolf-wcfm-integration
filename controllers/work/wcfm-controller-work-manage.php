@@ -168,6 +168,18 @@ $new_work_id = $wcfm_work_manage_form_data['work_id'];
 					}
 				}
 
+if (isset($wcfm_work_manage_form_data['post_format']) && !empty($wcfm_work_manage_form_data['post_format'])) {
+					$post_format = sanitize_text_field($wcfm_work_manage_form_data['post_format']);
+
+					if ($post_format === 'standard') {
+						// Remove post format (standard is no format)
+						wp_set_post_terms($new_work_id, array(), 'post_format');
+					} else {
+						// Set the post format
+						set_post_format($new_work_id, $post_format);
+					}
+				}
+
 				do_action( 'after_wcfm_work_manage_meta_save', $new_work_id, $wcfm_work_manage_form_data );
 
 				  // Notify Admin on New work Creation

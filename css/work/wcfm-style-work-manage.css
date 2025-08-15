@@ -75,6 +75,15 @@
     flex: 5 auto;
 }
 
+
+.wcfm_work_manager_format_fields .wcfm_title,
+.wcfm_work_manager_format_fields .wcfm-select {
+		max-width: 214px!important;
+    margin: auto !important;
+    display: block !important;
+		width:100%;
+}
+
 .wcfm_work_manager_taxonomy_fields {
     display: table-row;
 }
