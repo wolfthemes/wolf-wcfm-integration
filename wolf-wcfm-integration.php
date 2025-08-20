@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wolf WCFM Integration
  * Description: Integrate existing custom post type into WCFM dashboard.
- * Version: 1.0.0
+ * Version: 1.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,7 +14,7 @@ class Wolf_WCFM_Integration {
 	/**
 	 * @var string
 	 */
-	public $version = '1.0.0';
+	public $version = '1.0.1';
 
 	public function __construct() {
 
