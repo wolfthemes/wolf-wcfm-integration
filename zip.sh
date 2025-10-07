@@ -11,6 +11,8 @@ cd .. && zip -r "${FOLDER_NAME}.zip" "${FOLDER_NAME}/" \
     -x "*/deprecated/*" \
     -x "*/ressources/*" \
     -x "*/tests/*" \
+    -x "*/vendor/*" \
+    -x "*/node_modules/*" \
     -x "*/test/*" \
     -x "*/phpunit.xml" \
     -x "*/phpcs.xml.dist" \
