@@ -70,7 +70,7 @@ $count_video['any']     = $count_video['publish'] + $count_video['pending'] + $c
 			}
 
 			if ( $has_new = apply_filters( 'wcfm_add_new_video_sub_menu', true ) ) {
-				echo '<a id="add_new_video_dashboard" class="add_new_wcfm_ele_dashboard text_tip" href="' . get_wcfm_cpt_manage_url( 'url' ) . '" data-tip="' . __( 'Add New Video', 'wcfm-cpt' ) . '"><span class="fa fa-cube"></span><span class="text">' . __( 'Add New', 'wcfm-cpt' ) . '</span></a>';
+				echo '<a id="add_new_video_dashboard" class="add_new_wcfm_ele_dashboard text_tip" href="' . get_wcfm_cpt_manage_url( 'video' ) . '" data-tip="' . __( 'Add New Video', 'wcfm-cpt' ) . '"><span class="fa fa-cube"></span><span class="text">' . __( 'Add New', 'wcfm-cpt' ) . '</span></a>';
 			}
 			?>
 
