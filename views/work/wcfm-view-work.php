@@ -2,22 +2,28 @@
 global $WCFM, $wp_query;
 
 $wcfm_is_allow_manage_work = apply_filters( 'wcfm_is_allow_manage_work', true );
-if( !$wcfm_is_allow_manage_work ) {
+if ( ! $wcfm_is_allow_manage_work ) {
 	wcfm_restriction_message_show( 'Works' );
 	return;
 }
 
-$wcfmu_work_menus = apply_filters( 'wcfmu_work_menus', array( 'any' => __( 'All', 'wcfm-cpt'),
-	'publish' => __( 'Published', 'wcfm-cpt'),
-	'draft' => __( 'Draft', 'wcfm-cpt'),
-	'pending' => __( 'Pending', 'wcfm-cpt')
-) );
+$wcfmu_work_menus = apply_filters(
+	'wcfmu_work_menus',
+	array(
+		'any'     => __( 'All', 'wcfm-cpt' ),
+		'publish' => __( 'Published', 'wcfm-cpt' ),
+		'draft'   => __( 'Draft', 'wcfm-cpt' ),
+		'pending' => __( 'Pending', 'wcfm-cpt' ),
+	)
+);
 
 $work_status = ! empty( $_GET['work_status'] ) ? sanitize_text_field( $_GET['work_status'] ) : 'any';
 
 $current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
-if( current_user_can( 'administrator' ) ) $current_user_id = 0;
-$count_work = array();
+if ( current_user_can( 'administrator' ) ) {
+	$current_user_id = 0;
+}
+$count_work            = array();
 $count_work['publish'] = wcfm_get_user_posts_count( $current_user_id, 'work', 'publish' );
 $count_work['pending'] = wcfm_get_user_posts_count( $current_user_id, 'work', 'pending' );
 $count_work['draft']   = wcfm_get_user_posts_count( $current_user_id, 'work', 'draft' );
@@ -40,28 +46,31 @@ $count_work['any']     = $count_work['publish'] + $count_work['pending'] + $coun
 			<ul class="wcfm_work_menus">
 				<?php
 				$is_first = true;
-				foreach( $wcfmu_work_menus as $wcfmu_work_menu_key => $wcfmu_work_menu) {
+				foreach ( $wcfmu_work_menus as $wcfmu_work_menu_key => $wcfmu_work_menu ) {
 					?>
 					<li class="wcfm_work_menu_item">
 						<?php
-						if($is_first) $is_first = false;
-						else echo " | ";
+						if ( $is_first ) {
+							$is_first = false;
+						} else {
+							echo ' | ';
+						}
 						?>
-						<a class="<?php echo ( $wcfmu_work_menu_key == $work_status ) ? 'active' : ''; ?>" href="<?php echo get_wcfm_cpt_url( 'work', $wcfmu_work_menu_key ); ?>"><?php echo $wcfmu_work_menu . ' ('. $count_work[$wcfmu_work_menu_key] .')'; ?></a>
+						<a class="<?php echo ( $wcfmu_work_menu_key == $work_status ) ? 'active' : ''; ?>" href="<?php echo get_wcfm_cpt_url( 'work', $wcfmu_work_menu_key ); ?>"><?php echo $wcfmu_work_menu . ' (' . $count_work[ $wcfmu_work_menu_key ] . ')'; ?></a>
 					</li>
 					<?php
 				}
 				?>
 			</ul>
 			<?php
-			if( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
+			if ( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
 				?>
-				<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('edit.php?post_type=work'); ?>" data-tip="<?php _e( 'WP Admin View', 'wcfm-cpt' ); ?>"><span class="fab fa-wordpress"></span></a>
+				<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url( 'edit.php?post_type=work' ); ?>" data-tip="<?php _e( 'WP Admin View', 'wcfm-cpt' ); ?>"><span class="fab fa-wordpress"></span></a>
 				<?php
 			}
 
-			if( $has_new = apply_filters( 'wcfm_add_new_work_sub_menu', true ) ) {
-				echo '<a id="add_new_work_dashboard" class="add_new_wcfm_ele_dashboard text_tip" href="'.get_wcfm_cpt_manage_url( 'url' ).'" data-tip="' . __('Add New work', 'wcfm-cpt') . '"><span class="fa fa-cube"></span><span class="text">' . __( 'Add New', 'wcfm-cpt') . '</span></a>';
+			if ( $has_new = apply_filters( 'wcfm_add_new_work_sub_menu', true ) ) {
+				echo '<a id="add_new_work_dashboard" class="add_new_wcfm_ele_dashboard text_tip" href="' . get_wcfm_cpt_manage_url( 'url' ) . '" data-tip="' . __( 'Add New work', 'wcfm-cpt' ) . '"><span class="fa fa-cube"></span><span class="text">' . __( 'Add New', 'wcfm-cpt' ) . '</span></a>';
 			}
 			?>
 
@@ -73,14 +82,20 @@ $count_work['any']     = $count_work['publish'] + $count_work['pending'] + $coun
 
 		<div class="wcfm_work_filter_wrap wcfm_products_filter_wrap  wcfm_filters_wrap">
 			<?php
-			if( $wcfm_is_work_vendor_filter = apply_filters( 'wcfm_is_work_vendor_filter', true ) ) {
+			if ( $wcfm_is_work_vendor_filter = apply_filters( 'wcfm_is_work_vendor_filter', true ) ) {
 				$is_marketplace = wcfm_is_marketplace();
-				if( $is_marketplace ) {
-					if( !wcfm_is_vendor() ) {
-						$vendor_arr = array(); //$WCFM->wcfm_vendor_support->wcfm_get_vendor_list();
-						$WCFM->wcfm_fields->wcfm_generate_form_field( array(
-							"dropdown_vendor" => array( 'type' => 'select', 'options' => $vendor_arr, 'attributes' => array( 'style' => 'width: 150px;' ) )
-						) );
+				if ( $is_marketplace ) {
+					if ( ! wcfm_is_vendor() ) {
+						$vendor_arr = array(); // $WCFM->wcfm_vendor_support->wcfm_get_vendor_list();
+						$WCFM->wcfm_fields->wcfm_generate_form_field(
+							array(
+								'dropdown_vendor' => array(
+									'type'       => 'select',
+									'options'    => $vendor_arr,
+									'attributes' => array( 'style' => 'width: 150px;' ),
+								),
+							)
+						);
 					}
 				}
 			}

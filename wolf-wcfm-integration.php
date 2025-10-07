@@ -40,36 +40,36 @@ class Wolf_WCFM_Integration {
 	}
 
 	/**
-		 * Define constant if not already set
-		 *
-		 * @param  string      $name The constant to define.
-		 * @param  string|bool $value The constant value.
-		 */
-		private function define( $name, $value ) {
-			if ( ! defined( $name ) ) {
-				define( $name, $value );
-			}
+	 * Define constant if not already set
+	 *
+	 * @param  string      $name The constant to define.
+	 * @param  string|bool $value The constant value.
+	 */
+	private function define( $name, $value ) {
+		if ( ! defined( $name ) ) {
+			define( $name, $value );
 		}
+	}
 
 		/**
 		 * Define WR Constants
 		 */
-		private function define_constants() {
+	private function define_constants() {
 
-			$constants = array(
-				'WWCFI_DIR'            => $this->plugin_path(),
-				'WWCFI_URI'            => $this->plugin_url(),
-				'WWCFI_CSS'            => $this->plugin_url() . '/assets/css',
-				'WWCFI_JS'             => $this->plugin_url() . '/assets/js',
-				'WWCFI_SLUG'           => plugin_basename( dirname( __FILE__ ) ),
-				'WWCFI_PATH'           => plugin_basename( __FILE__ ),
-				'WWCFI_VERSION'        => $this->version,
-			);
+		$constants = array(
+			'WWCFI_DIR'     => $this->plugin_path(),
+			'WWCFI_URI'     => $this->plugin_url(),
+			'WWCFI_CSS'     => $this->plugin_url() . '/assets/css',
+			'WWCFI_JS'      => $this->plugin_url() . '/assets/js',
+			'WWCFI_SLUG'    => plugin_basename( __DIR__ ),
+			'WWCFI_PATH'    => plugin_basename( __FILE__ ),
+			'WWCFI_VERSION' => $this->version,
+		);
 
-			foreach ( $constants as $name => $value ) {
-				$this->define( $name, $value );
-			}
+		foreach ( $constants as $name => $value ) {
+			$this->define( $name, $value );
 		}
+	}
 
 	/**
 	 * Load styles
@@ -100,7 +100,6 @@ class Wolf_WCFM_Integration {
 	public function plugin_path() {
 		return untrailingslashit( plugin_dir_path( __FILE__ ) );
 	}
-
 }
 
 new Wolf_WCFM_Integration();

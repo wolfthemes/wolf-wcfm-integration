@@ -2,51 +2,51 @@
 global $wp, $WCFM, $wc_work_attributes;
 
 $wcfm_is_allow_manage_work = apply_filters( 'wcfm_is_allow_manage_work', true );
-if ( !$wcfm_is_allow_manage_work ) {
+if ( ! $wcfm_is_allow_manage_work ) {
 	wcfm_restriction_message_show( 'Works' );
 	return;
 }
 
 if ( isset( $wp->query_vars['wcfm-work-manage'] ) && empty( $wp->query_vars['wcfm-work-manage'] ) ) {
-	if ( !apply_filters( 'wcfm_is_allow_add_work', true ) ) {
+	if ( ! apply_filters( 'wcfm_is_allow_add_work', true ) ) {
 		wcfm_restriction_message_show( 'Add work' );
 		return;
 	}
-	if ( !apply_filters( 'wcfm_is_allow_work_limit', true ) ) {
+	if ( ! apply_filters( 'wcfm_is_allow_work_limit', true ) ) {
 		wcfm_restriction_message_show( 'work Limit Reached' );
 		return;
 	}
-} elseif ( isset( $wp->query_vars['wcfm-work-manage'] ) && !empty( $wp->query_vars['wcfm-work-manage'] ) ) {
+} elseif ( isset( $wp->query_vars['wcfm-work-manage'] ) && ! empty( $wp->query_vars['wcfm-work-manage'] ) ) {
 	$wcfm_work_single = get_post( $wp->query_vars['wcfm-work-manage'] );
 	if ( $wcfm_work_single->post_status == 'publish' ) {
-		if ( !apply_filters( 'wcfm_is_allow_edit_work', true ) ) {
+		if ( ! apply_filters( 'wcfm_is_allow_edit_work', true ) ) {
 			wcfm_restriction_message_show( 'Edit work' );
 			return;
 		}
 	}
 	if ( wcfm_is_vendor() ) {
 		$is_work_from_vendor = $WCFM->wcfm_vendor_support->wcfm_is_article_from_vendor( $wp->query_vars['wcfm-work-manage'] );
-		if ( !$is_work_from_vendor ) {
+		if ( ! $is_work_from_vendor ) {
 			wcfm_restriction_message_show( 'Restricted work' );
 			return;
 		}
 	}
 }
 
-$work_id    = 0;
-$work       = array();
+$work_id     = 0;
+$work        = array();
 $title       = '';
 $excerpt     = '';
 $description = '';
 
 $featured_img = '';
 
-if ( isset( $wp->query_vars['wcfm-work-manage'] ) && !empty( $wp->query_vars['wcfm-work-manage'] ) ) {
+if ( isset( $wp->query_vars['wcfm-work-manage'] ) && ! empty( $wp->query_vars['wcfm-work-manage'] ) ) {
 
 	$work_id          = $wp->query_vars['wcfm-work-manage'];
-	$wcfm_work_single = get_post($work_id);
+	$wcfm_work_single = get_post( $work_id );
 	// Fetching work Data
-	if ($wcfm_work_single && !empty($wcfm_work_single)) {
+	if ( $wcfm_work_single && ! empty( $wcfm_work_single ) ) {
 
 		$title = $wcfm_work_single->post_title;
 
@@ -54,8 +54,8 @@ if ( isset( $wp->query_vars['wcfm-work-manage'] ) && !empty( $wp->query_vars['wc
 		$description = wpautop( $wcfm_work_single->post_content );
 
 		$rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
-		if ( !$rich_editor && apply_filters( 'wcfm_is_allow_editor_newline_replace', false ) ) {
-			$breaks = apply_filters( 'wcfm_editor_newline_generators', array('<br />','<br>','<br/>') );
+		if ( ! $rich_editor && apply_filters( 'wcfm_is_allow_editor_newline_replace', false ) ) {
+			$breaks = apply_filters( 'wcfm_editor_newline_generators', array( '<br />', '<br>', '<br/>' ) );
 
 			$excerpt = str_ireplace( $breaks, "\r\n", $excerpt );
 			$excerpt = strip_tags( $excerpt );
@@ -65,14 +65,13 @@ if ( isset( $wp->query_vars['wcfm-work-manage'] ) && !empty( $wp->query_vars['wc
 		}
 
 		// work Images
-		$featured_img = ( get_post_thumbnail_id($work_id) ) ? get_post_thumbnail_id($work_id) : '';
-		if ($featured_img) {
-$featured_img = wp_get_attachment_url($featured_img);
+		$featured_img = ( get_post_thumbnail_id( $work_id ) ) ? get_post_thumbnail_id( $work_id ) : '';
+		if ( $featured_img ) {
+			$featured_img = wp_get_attachment_url( $featured_img );
 		}
-		if (!$featured_img) {
-$featured_img = '';
+		if ( ! $featured_img ) {
+			$featured_img = '';
 		}
-
 	}
 }
 
@@ -88,7 +87,7 @@ if ( $wpeditor && $rich_editor ) {
 ?>
 
 <div class="collapse wcfm-collapse" id="">
-  <div class="wcfm-page-headig">
+	<div class="wcfm-page-headig">
 		<span class="wcfmfa fa fa-work"></span>
 		<span class="wcfm-page-heading-text"><?php _e( 'Manage work', 'wcfm-cpt' ); ?></span>
 		<?php do_action( 'wcfm_page_heading' ); ?>
@@ -101,9 +100,9 @@ if ( $wpeditor && $rich_editor ) {
 			<h2>
 			<?php
 			if ( $work_id ) {
-_e('Edit work', 'wcfm-cpt' );
+				_e( 'Edit work', 'wcfm-cpt' );
 			} else {
-				_e('Add work', 'wcfm-cpt' ); }
+				_e( 'Add work', 'wcfm-cpt' ); }
 			?>
 			</h2>
 			<?php
@@ -112,9 +111,9 @@ _e('Edit work', 'wcfm-cpt' );
 				<span class="work-status work-status-<?php echo $wcfm_work_single->post_status; ?>">
 				<?php
 				if ( $wcfm_work_single->post_status == 'publish' ) {
-_e( 'Published', 'wcfm-cpt' );
+					_e( 'Published', 'wcfm-cpt' );
 				} else {
-				_e( ucfirst( $wcfm_work_single->post_status ), 'wcfm-cpt' ); }
+					_e( ucfirst( $wcfm_work_single->post_status ), 'wcfm-cpt' ); }
 				?>
 				</span>
 				<?php
@@ -135,12 +134,12 @@ _e( 'Published', 'wcfm-cpt' );
 
 			if ( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
 				?>
-				<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('post-new.php?post_type=work'); ?>" data-tip="<?php _e( 'WP Admin View', 'wcfm-cpt' ); ?>"><span class="fab fa-wordpress"></span></a>
+				<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url( 'post-new.php?post_type=work' ); ?>" data-tip="<?php _e( 'WP Admin View', 'wcfm-cpt' ); ?>"><span class="fab fa-wordpress"></span></a>
 				<?php
 			}
 
 			if ( $has_new = apply_filters( 'wcfm_add_new_work_sub_menu', true ) ) {
-				echo '<a id="add_new_work_dashboard" class="add_new_wcfm_ele_dashboard text_tip" href="' . get_wcfm_cpt_manage_url( 'work' ) . '" data-tip="' . __('Add New work', 'wcfm-cpt') . '"><span class="fa fa-cube"></span><span class="text">' . __( 'Add New', 'wcfm-cpt') . '</span></a>';
+				echo '<a id="add_new_work_dashboard" class="add_new_wcfm_ele_dashboard text_tip" href="' . get_wcfm_cpt_manage_url( 'work' ) . '" data-tip="' . __( 'Add New work', 'wcfm-cpt' ) . '"><span class="fa fa-cube"></span><span class="text">' . __( 'Add New', 'wcfm-cpt' ) . '</span></a>';
 			}
 			?>
 
@@ -155,29 +154,38 @@ _e( 'Published', 'wcfm-cpt' );
 			<!-- collapsible -->
 			<div class="wcfm-container">
 				<div id="wcfm_work_manage_form_general_expander" class="wcfm-content">
-				  <div class="wcfm_work_manager_general_fields">
+					<div class="wcfm_work_manager_general_fields">
 						<?php
-							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_work_manage_fields_general', array(
-								'title' => array( 'placeholder' => __( 'work Title', 'wcfm-cpt') , 'type' => 'text', 'class' => 'wcfm-text wcfm_work_title wcfm_full_ele', 'value' => $title),
-							), $work_id ) );
+							$WCFM->wcfm_fields->wcfm_generate_form_field(
+								apply_filters(
+									'wcfm_work_manage_fields_general',
+									array(
+										'title' => array(
+											'placeholder' => __( 'work Title', 'wcfm-cpt' ),
+											'type'        => 'text',
+											'class'       => 'wcfm-text wcfm_work_title wcfm_full_ele',
+											'value'       => $title,
+										),
+									),
+									$work_id
+								)
+							);
 
 							?>
 						<div class="wcfm_clearfix"></div>
 
-						<?php if ( !$wcfm_is_category_checklist = apply_filters( 'wcfm_is_category_checklist', true ) ) { ?>
-						  <?php
+						<?php if ( ! $wcfm_is_category_checklist = apply_filters( 'wcfm_is_category_checklist', true ) ) { ?>
+							<?php
 							if ( $wcfm_is_allow_category = apply_filters( 'wcfm_is_allow_category', true ) ) {
-$catlimit = apply_filters( 'wcfm_catlimit', -1 );
+								$catlimit = apply_filters( 'wcfm_catlimit', -1 );
 								?>
-								<?php
-								?>
-								 					<p class="wcfm_title"><strong><?php _e( $work_taxonomy->label, 'wcfm-cpt' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $work_taxonomy->name; ?>"><?php _e( $work_taxonomy->label, 'wcfm-cpt' ); ?></label>
-								 					<select id="<?php echo $work_taxonomy->name; ?>" name="work_custom_taxonomies[<?php echo $work_taxonomy->name; ?>][]" class="wcfm-select work_taxonomies " multiple="multiple" style="width: 100%; margin-bottom: 10px;">
+													<p class="wcfm_title"><strong><?php _e( $work_taxonomy->label, 'wcfm-cpt' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $work_taxonomy->name; ?>"><?php _e( $work_taxonomy->label, 'wcfm-cpt' ); ?></label>
+													<select id="<?php echo $work_taxonomy->name; ?>" name="work_custom_taxonomies[<?php echo $work_taxonomy->name; ?>][]" class="wcfm-select work_taxonomies " multiple="multiple" style="width: 100%; margin-bottom: 10px;">
 
-														 					</select>
+																			</select>
 
 								<?php
-													}
+							}
 
 
 							?>
@@ -186,20 +194,48 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 							<div class="wcfm_clearfix"></div><br />
 							<div class="wcfm_work_manager_content_fields">
 								<?php
-								$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_work_manage_fields_content', array(
-									//"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
-									'description' => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
-									'work_id' => array('type' => 'hidden', 'value' => $work_id)
-								), $work_id ) );
+								$WCFM->wcfm_fields->wcfm_generate_form_field(
+									apply_filters(
+										'wcfm_work_manage_fields_content',
+										array(
+											// "excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
+											'description' => array(
+												'label'       => __( 'Description', 'wcfm-cpt' ),
+												'type'        => $wpeditor,
+												'class'       => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor,
+												'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor,
+												'value'       => $description,
+											),
+											'work_id'     => array(
+												'type'  => 'hidden',
+												'value' => $work_id,
+											),
+										),
+										$work_id
+									)
+								);
 								?>
 							</div>
 						<?php } ?>
 					</div>
 					<div class="wcfm_work_manager_gallery_fields">
-					  <?php
+						<?php
 						if ( $wcfm_is_allow_featured = apply_filters( 'wcfm_is_allow_featured', true ) ) {
-							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_work_manage_fields_gallery', array('featured_img' => array( 'type' => 'upload', 'class' => 'wcfm-work-feature-upload', 'label_class' => 'wcfm_title', 'prwidth' => 250, 'value' => $featured_img)
-																																													), $work_id ) );
+							$WCFM->wcfm_fields->wcfm_generate_form_field(
+								apply_filters(
+									'wcfm_work_manage_fields_gallery',
+									array(
+										'featured_img' => array(
+											'type'        => 'upload',
+											'class'       => 'wcfm-work-feature-upload',
+											'label_class' => 'wcfm_title',
+											'prwidth'     => 250,
+											'value'       => $featured_img,
+										),
+									),
+									$work_id
+								)
+							);
 						}
 						?>
 
@@ -210,16 +246,16 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 
 								if ( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
 									$work_taxonomies = get_object_taxonomies( 'work', 'objects' );
-									if ( !empty( $work_taxonomies ) ) {
+									if ( ! empty( $work_taxonomies ) ) {
 										foreach ( $work_taxonomies as $work_taxonomy ) {
-											if ( !in_array( $work_taxonomy->name, array( 'post_tag' ) ) ) {
+											if ( ! in_array( $work_taxonomy->name, array( 'post_tag' ) ) ) {
 												if ( $work_taxonomy->public && $work_taxonomy->show_ui && $work_taxonomy->meta_box_cb && $work_taxonomy->hierarchical ) {
 													// Fetching Saved Values
 													$taxonomy_values_arr = array();
 													$taxonomy_values     = get_the_terms( $work_id, $work_taxonomy->name );
-													if ( !empty($taxonomy_values) ) {
-														foreach ($taxonomy_values as $pkey => $ptaxonomy) {
-															$taxonomy_values_arr[$ptaxonomy->term_id] = $ptaxonomy->term_id;
+													if ( ! empty( $taxonomy_values ) ) {
+														foreach ( $taxonomy_values as $pkey => $ptaxonomy ) {
+															$taxonomy_values_arr[ $ptaxonomy->term_id ] = $ptaxonomy->term_id;
 														}
 													}
 													?>
@@ -247,64 +283,81 @@ $catlimit = apply_filters( 'wcfm_catlimit', -1 );
 							?>
 						<?php } ?>
 						<?php
-if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'work', 'post-formats' ) ) {
+						if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'work', 'post-formats' ) ) {
 								$post_formats = get_theme_support( 'post-formats' );
 
-								if ( is_array( $post_formats[0] ) ) {
-									// Get current post format
-									$current_format = get_post_format( $work_id );
-									if ( !$current_format ) {
-										$current_format = 'standard';
-									}
+							if ( is_array( $post_formats[0] ) ) {
+								// Get current post format
+								$current_format = get_post_format( $work_id );
+								if ( ! $current_format ) {
+									$current_format = 'standard';
+								}
 
-									// Build options array
-									$format_options = array(
-										'standard' => __( 'Standard', 'wcfm-cpt' ),
-										'video' => __( 'Video', 'wcfm-cpt' ),
-										'gallery' => __( 'Gallery', 'wcfm-cpt' )
-									);
+								// Build options array
+								$format_options = array(
+									'standard' => __( 'Standard', 'wcfm-cpt' ),
+									'video'    => __( 'Video', 'wcfm-cpt' ),
+									'gallery'  => __( 'Gallery', 'wcfm-cpt' ),
+								);
 
-									// Add supported formats
-									// foreach ( $post_formats[0] as $format ) {
-										//$format_options[$format] = ucfirst( $format );
-									//}
+								// Add supported formats
+								// foreach ( $post_formats[0] as $format ) {
+									// $format_options[$format] = ucfirst( $format );
+								// }
 
-									// debug( $format_options );
+								// debug( $format_options );
 
 
-									echo '<div class="wcfm_clearfix"></div>';
-									echo '<div class="wcfm_work_manager_format_fields" style="margin-top: 15px;">';
+								echo '<div class="wcfm_clearfix"></div>';
+								echo '<div class="wcfm_work_manager_format_fields" style="margin-top: 15px;">';
 
-									$WCFM->wcfm_fields->wcfm_generate_form_field( array(
+								$WCFM->wcfm_fields->wcfm_generate_form_field(
+									array(
 										'post_format' => array(
-											'label' => __( 'Post Format', 'wcfm-cpt' ),
-											'type' => 'select',
-											'class' => 'wcfm-select wcfm_eleg',
+											'label'       => __( 'Post Format', 'wcfm-cpt' ),
+											'type'        => 'select',
+											'class'       => 'wcfm-select wcfm_eleg',
 											'label_class' => 'wcfm_title',
-											'options' => $format_options,
-											'value' => $current_format,
-											'name' => 'post_format'
-										)
-									) );
+											'options'     => $format_options,
+											'value'       => $current_format,
+											'name'        => 'post_format',
+										),
+									)
+								);
 
-						echo '</div>';
- 	}
+								echo '</div>';
+							}
 						}
 						?>
 						<?php do_action( 'wcfm_work_manager_gallery_fields_end', $work_id ); ?>
 					</div>
 				</div>
 
-				<?php if ( !$wcfm_is_category_checklist = apply_filters( 'wcfm_is_category_checklist', true ) ) { ?>
+				<?php if ( ! $wcfm_is_category_checklist = apply_filters( 'wcfm_is_category_checklist', true ) ) { ?>
 					<div class="wcfm-content">
 						<div class="wcfm_work_manager_content_fields">
 							<?php
 							$rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
-							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_work_manage_fields_content', array(
-								//"excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor , 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
-								'description' => array('label' => __('Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'value' => $description),
-								'work_id' => array('type' => 'hidden', 'value' => $work_id)
-							), $work_id ) );
+							$WCFM->wcfm_fields->wcfm_generate_form_field(
+								apply_filters(
+									'wcfm_work_manage_fields_content',
+									array(
+										// "excerpt" => array('label' => __('Short Description', 'wcfm-cpt') , 'type' => $wpeditor, 'class' => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor , 'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor, 'rows' => 5, 'value' => $excerpt),
+										'description' => array(
+											'label'       => __( 'Description', 'wcfm-cpt' ),
+											'type'        => $wpeditor,
+											'class'       => 'wcfm-textarea  wcfm_full_ele ' . $rich_editor,
+											'label_class' => 'wcfm_title wcfm_full_ele ' . $rich_editor,
+											'value'       => $description,
+										),
+										'work_id'     => array(
+											'type'  => 'hidden',
+											'value' => $work_id,
+										),
+									),
+									$work_id
+								)
+							);
 							?>
 						</div>
 					</div>
@@ -315,38 +368,38 @@ if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'work', 'po
 
 			<!-- wrap -->
 			<div class="wcfm-tabWrap">
-			  <?php do_action( 'after_wcfm_work_manage_general', $work_id ); ?>
+				<?php do_action( 'after_wcfm_work_manage_general', $work_id ); ?>
 
-			  <?php require  'wcfm-view-work-manage-tabs.php' ; ?>
+				<?php require 'wcfm-view-work-manage-tabs.php'; ?>
 
 				<?php do_action( 'end_wcfm_work_manage', $work_id ); ?>
 
 			</div> <!-- tabwrap -->
 
 			<div id="wcfm_work_simple_submit" class="wcfm_form_simple_submit_wrapper">
-			  <div class="wcfm-message" tabindex="-1"></div>
+				<div class="wcfm-message" tabindex="-1"></div>
 
-			  <?php if ( $work_id && ( $wcfm_work_single->post_status == 'publish' ) ) { ?>
-				  <input type="submit" name="submit-data" value="
-				  <?php
+				<?php if ( $work_id && ( $wcfm_work_single->post_status == 'publish' ) ) { ?>
+					<input type="submit" name="submit-data" value="
+					<?php
 					if ( apply_filters( 'wcfm_is_allow_publish_live_work', true ) ) {
-_e( 'Submit', 'wcfm-cpt' );
+						_e( 'Submit', 'wcfm-cpt' );
 					} else {
-					_e( 'Submit for Review', 'wcfm-cpt' ); }
+						_e( 'Submit for Review', 'wcfm-cpt' ); }
 					?>
 					" id="wcfm_work_simple_submit_button" class="wcfm_submit_button" />
 				<?php } else { ?>
 					<input type="submit" name="submit-data" value="
 					<?php
 					if ( apply_filters( 'wcfm_is_allow_publish_work', true ) ) {
-_e( 'Submit', 'wcfm-cpt' );
+						_e( 'Submit', 'wcfm-cpt' );
 					} else {
-					_e( 'Submit for Review', 'wcfm-cpt' ); }
+						_e( 'Submit for Review', 'wcfm-cpt' ); }
 					?>
 					" id="wcfm_work_simple_submit_button" class="wcfm_submit_button" />
 				<?php } ?>
 				<?php if ( apply_filters( 'wcfm_is_allow_draft_published_work', true ) && apply_filters( 'wcfm_is_allow_add_work', true ) ) { ?>
-				  <input type="submit" name="draft-data" value="<?php _e( 'Draft', 'wcfm-cpt' ); ?>" id="wcfm_work_simple_draft_button" class="wcfm_submit_button" />
+					<input type="submit" name="draft-data" value="<?php _e( 'Draft', 'wcfm-cpt' ); ?>" id="wcfm_work_simple_draft_button" class="wcfm_submit_button" />
 				<?php } ?>
 
 				<?php

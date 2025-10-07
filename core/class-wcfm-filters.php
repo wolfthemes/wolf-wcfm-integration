@@ -3,105 +3,108 @@
  * Filters overable
  */
 
-if (!defined('ABSPATH')) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Wolf_WCFM_Filters {
 
-    private $theme_slug;
+	private $theme_slug;
 
-    public function __construct() {
+	public function __construct() {
 
-        $this->theme_slug = 'overable';
+		$this->theme_slug = 'overable';
 
-        add_filter( $this->theme_slug . '_work_index_params', array( $this, 'add_store_id_filter' ) );
-        add_filter( $this->theme_slug . '_video_index_params', array( $this, 'add_store_id_filter' ) );
-        add_filter( $this->theme_slug . '_product_index_params', array( $this, 'add_store_id_filter' ) );
-        add_filter( $this->theme_slug . '_event_index_params', array( $this, 'add_store_id_filter' ) );
-        add_filter( $this->theme_slug . '_post_index_params', array( $this, 'add_store_id_filter' ) );
-        add_filter( $this->theme_slug . '_post_module_main_query_args', array( $this, 'filter_post_query' ), 10, 2 );
-        //add_filter( $this->theme_slug . '_js_params', array( $this, 'overwrite_js_params' ) );
-    }
+		add_filter( $this->theme_slug . '_work_index_params', array( $this, 'add_store_id_filter' ) );
+		add_filter( $this->theme_slug . '_video_index_params', array( $this, 'add_store_id_filter' ) );
+		add_filter( $this->theme_slug . '_product_index_params', array( $this, 'add_store_id_filter' ) );
+		add_filter( $this->theme_slug . '_event_index_params', array( $this, 'add_store_id_filter' ) );
+		add_filter( $this->theme_slug . '_post_index_params', array( $this, 'add_store_id_filter' ) );
+		add_filter( $this->theme_slug . '_post_module_main_query_args', array( $this, 'filter_post_query' ), 10, 2 );
+		// add_filter( $this->theme_slug . '_js_params', array( $this, 'overwrite_js_params' ) );
+	}
 
-    public function get_vendors() {
-        global $wpdb;
+	public function get_vendors() {
+		global $wpdb;
 
-        $vendor_array[] = esc_html__( 'Not set', 'wolf-wcfp-integration' );
+		$vendor_array[] = esc_html__( 'Not set', 'wolf-wcfp-integration' );
 
-        // Fetch vendors from the database
-        $vendors = $wpdb->get_results("
+		// Fetch vendors from the database
+		$vendors = $wpdb->get_results(
+			"
             SELECT u.ID, u.display_name 
             FROM {$wpdb->users} u
             INNER JOIN {$wpdb->usermeta} um ON u.ID = um.user_id
             WHERE um.meta_key = '{$wpdb->prefix}capabilities' 
             AND um.meta_value LIKE '%wcfm_vendor%'
-        ");
+        "
+		);
 
-        // Convert results to an array with user ID as key and name as value
-        if (!empty($vendors)) {
-            foreach ($vendors as $vendor) {
-                $vendor_array[$vendor->ID] = $vendor->display_name;
-            }
-        }
+		// Convert results to an array with user ID as key and name as value
+		if ( ! empty( $vendors ) ) {
+			foreach ( $vendors as $vendor ) {
+				$vendor_array[ $vendor->ID ] = $vendor->display_name;
+			}
+		}
 
-        // Output the array
-        // print_r($vendor_array);
-    
-        return $vendor_array;
-    }
+		// Output the array
+		// print_r($vendor_array);
 
-    /** 
-     * Add Elementor settings
-     */
-    public function add_store_id_filter( $params ) {
+		return $vendor_array;
+	}
 
-        $vendors = $this->get_vendors();
-        
-        $params['params'][] = array(
-            'label'      => esc_html__( 'Vendor', 'wolf-wcfp-integration' ),
-            'param_name' => 'vendor_id',
-            'type'       => 'select',
-            'options'    => $vendors,
-            'group'       => esc_html__( 'Query', 'wolf-wcfp-integration' ),
-        );
+	/**
+	 * Add Elementor settings
+	 */
+	public function add_store_id_filter( $params ) {
 
-        return $params;
-    }
+		$vendors = $this->get_vendors();
 
-    public function filter_post_query( $args, $atts ) {
-        // 'meta_key'    => '_vendor_id',
-        $vendor_id = ( ! empty( $atts['vendor_id'] ) ) ? esc_attr($atts['vendor_id']) : null;
+		$params['params'][] = array(
+			'label'      => esc_html__( 'Vendor', 'wolf-wcfp-integration' ),
+			'param_name' => 'vendor_id',
+			'type'       => 'select',
+			'options'    => $vendors,
+			'group'      => esc_html__( 'Query', 'wolf-wcfp-integration' ),
+		);
 
-        if ( $vendor_id ) {
-            $args['author'] = $vendor_id;
-        }
+		return $params;
+	}
 
-        return $args;
-    }
+	public function filter_post_query( $args, $atts ) {
+		// 'meta_key'    => '_vendor_id',
+		$vendor_id = ( ! empty( $atts['vendor_id'] ) ) ? esc_attr( $atts['vendor_id'] ) : null;
 
-    public function overwrite_js_params( $params ) {
+		if ( $vendor_id ) {
+			$args['author'] = $vendor_id;
+		}
 
-        if ( $this->is_wcfm_dashboard() ) {
-            $params['lenis'] = false;
-        }
+		return $args;
+	}
 
-        return $params;
-    }
+	public function overwrite_js_params( $params ) {
 
-    public function is_wcfm_dashboard() {
-        if ( function_exists( 'wcfm_is_store_page' ) && wcfm_is_store_page() ) {
-            return false; // Avoid confusing vendor store with dashboard
-        }
+		if ( $this->is_wcfm_dashboard() ) {
+			$params['lenis'] = false;
+		}
 
-        global $wp_query;
-        $wcfm_query_vars = apply_filters( 'wcfm_query_vars', array() );
+		return $params;
+	}
 
-        foreach ( $wcfm_query_vars as $key => $endpoint ) {
-            if ( get_query_var( $endpoint ) ) {
-                return true;
-            }
-        }
+	public function is_wcfm_dashboard() {
+		if ( function_exists( 'wcfm_is_store_page' ) && wcfm_is_store_page() ) {
+			return false; // Avoid confusing vendor store with dashboard
+		}
 
-        return is_page( get_wcfm_page_id() );
-    }
+		global $wp_query;
+		$wcfm_query_vars = apply_filters( 'wcfm_query_vars', array() );
 
+		foreach ( $wcfm_query_vars as $key => $endpoint ) {
+			if ( get_query_var( $endpoint ) ) {
+				return true;
+			}
+		}
+
+		return is_page( get_wcfm_page_id() );
+	}
 }

@@ -8,12 +8,12 @@ require_once WWCFI_DIR . '/core/class-wcfm-metaboxes.php';
 $event_fields_config = require WWCFI_DIR . '/config/event-metaboxes.php';
 
 // Instantiate the generator
-$metabox = new Wolf_WCFM_Metaboxes($event_id, $event_fields_config, 'wcfm_event_fields_custom');
+$metabox = new Wolf_WCFM_Metaboxes( $event_id, $event_fields_config, 'wcfm_event_fields_custom' );
 ?>
 
 <!-- collapsible 1 -->
 <div class="page_collapsible event_manager_custom" id="wcfm_event_manager_form_custom_head">
-	<label class="fa fa-database"></label><?php printf( __('%s Options', 'wcfm-cpt'), 'event' ); ?><span></span>
+	<label class="fa fa-database"></label><?php printf( __( '%s Options', 'wcfm-cpt' ), 'event' ); ?><span></span>
 </div>
 <div class="wcfm-container">
 	<div id="wcfm_event_manager_form_custom_expander" class="wcfm-content">

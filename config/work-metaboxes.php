@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'_post_work_alt_title' => array(
+	'_post_work_alt_title'     => array(
 		'label'       => esc_html__( 'Single Post Alt Title', '%TEXTDOMAIN%' ),
 		'type'        => 'text',
 		'class'       => 'wcfm-text',
@@ -9,7 +9,7 @@ return array(
 		'hints'       => esc_html__( 'An alternative title to show in the title location on the single post (e.g: "Details & Info").', '%TEXTDOMAIN%' ),
 	),
 
-	'_work_video_bg' => array(
+	'_work_video_bg'           => array(
 		'label'       => esc_html__( 'Entry Video Background', '%TEXTDOMAIN%' ),
 		'type'        => 'upload',
 		'mime'        => 'video',
@@ -18,7 +18,7 @@ return array(
 		'hints'       => esc_html__( 'A video background to show in the work grid if the video format is used. By default, the first video in the post is used.', '%TEXTDOMAIN%' ),
 	),
 
-	'_work_masonry_img' => array(
+	'_work_masonry_img'        => array(
 		'label'       => esc_html__( 'Masonry Thumbnail', '%TEXTDOMAIN%' ),
 		'type'        => 'upload',
 		'mime'        => 'image',
@@ -27,21 +27,21 @@ return array(
 		'hints'       => esc_html__( 'An optional alternative featured image to use in the masonry layout.', '%TEXTDOMAIN%' ),
 	),
 
-	'_work_client' => array(
+	'_work_client'             => array(
 		'label'       => esc_html__( 'Client', '%TEXTDOMAIN%' ),
 		'type'        => 'text',
 		'class'       => 'wcfm-text',
 		'label_class' => 'wcfm_title',
 	),
 
-	'_work_link' => array(
+	'_work_link'               => array(
 		'label'       => esc_html__( 'Link', '%TEXTDOMAIN%' ),
 		'type'        => 'text',
 		'class'       => 'wcfm-text',
 		'label_class' => 'wcfm_title',
 	),
 
-	'_post_width' => array(
+	'_post_width'              => array(
 		'label'       => esc_html__( 'Width', '%TEXTDOMAIN%' ),
 		'type'        => 'select',
 		'class'       => 'wcfm-select wcfm_eleg',
@@ -53,7 +53,7 @@ return array(
 		),
 	),
 
-	'_post_layout' => array(
+	'_post_layout'             => array(
 		'label'       => esc_html__( 'Layout', '%TEXTDOMAIN%' ),
 		'type'        => 'select',
 		'class'       => 'wcfm-select wcfm_eleg',
