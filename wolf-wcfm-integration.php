@@ -25,7 +25,9 @@ class Wolf_WCFM_Integration {
 
 		add_action( 'wp_ajax_delete_wcfm_video', array( $this, 'delete_wcfm_video_handler' ) );
 		add_action( 'wp_ajax_delete_wcfm_event', array( $this, 'delete_wcfm_event_handler' ) );
-		add_action( 'wp_ajax_delete_wcfm_work', array( $this, 'delete_wcfm_work_handler' ) );}
+		add_action( 'wp_ajax_delete_wcfm_work', array( $this, 'delete_wcfm_work_handler' ) );
+
+	}
 
 	public function init() {
 
