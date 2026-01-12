@@ -161,7 +161,7 @@ if ( $wpeditor && $rich_editor ) {
 									'wcfm_work_manage_fields_general',
 									array(
 										'title' => array(
-											'placeholder' => __( 'work Title', 'wcfm-cpt' ),
+											'placeholder' => __( 'Work Title', 'wcfm-cpt' ),
 											'type'        => 'text',
 											'class'       => 'wcfm-text wcfm_work_title wcfm_full_ele',
 											'value'       => $title,
