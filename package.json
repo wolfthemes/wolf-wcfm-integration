@@ -1,7 +1,6 @@
-
 {
   "name": "WolfWCFMIntegration",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Integrate existing custom post type into WCFM dashboard.",
   "main": "index.js",
   "scripts": {
