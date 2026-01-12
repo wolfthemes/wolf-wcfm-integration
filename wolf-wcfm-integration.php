@@ -22,7 +22,10 @@ class Wolf_WCFM_Integration {
 
 		add_action( 'wcfm_init', array( $this, 'init' ), 20 );
 		add_action( 'wp_enqueue_scripts', array( &$this, 'load_default_styles' ), 99 );
-	}
+
+		add_action( 'wp_ajax_delete_wcfm_video', array( $this, 'delete_wcfm_video_handler' ) );
+		add_action( 'wp_ajax_delete_wcfm_event', array( $this, 'delete_wcfm_event_handler' ) );
+		add_action( 'wp_ajax_delete_wcfm_work', array( $this, 'delete_wcfm_work_handler' ) );}
 
 	public function init() {
 
@@ -70,6 +73,102 @@ class Wolf_WCFM_Integration {
 			$this->define( $name, $value );
 		}
 	}
+
+	/**
+	 * Delete video handler
+	 */
+	public function delete_wcfm_video_handler() {
+		$video_id = isset( $_POST['videoid'] ) ? absint( $_POST['videoid'] ) : 0;
+
+		if ( ! $video_id ) {
+			wp_send_json_error( array( 'message' => 'Invalid video ID' ) );
+		}
+
+		$post = get_post( $video_id );
+		if ( ! $post || $post->post_type !== 'video' ) {
+			wp_send_json_error( array( 'message' => 'Invalid video' ) );
+		}
+
+		// For vendors, check if they own the post
+		if ( function_exists( 'wcfm_is_vendor' ) && wcfm_is_vendor() ) {
+			$current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
+			if ( $post->post_author != $current_user_id ) {
+				wp_send_json_error( array( 'message' => 'Permission denied' ) );
+			}
+		}
+
+		// Delete the post
+		$deleted = wp_trash_post( $video_id );
+
+		if ( $deleted ) {
+			wp_send_json_success( array( 'message' => 'Video deleted successfully' ) );
+		} else {
+			wp_send_json_error( array( 'message' => 'Failed to delete video' ) );
+		}
+	}
+
+	/**
+	 * Delete event handler
+	 */
+	public function delete_wcfm_event_handler() {
+		$event_id = isset( $_POST['eventid'] ) ? absint( $_POST['eventid'] ) : 0;
+
+		if ( ! $event_id ) {
+			wp_send_json_error( array( 'message' => 'Invalid event ID' ) );
+		}
+
+		$post = get_post( $event_id );
+		if ( ! $post || $post->post_type !== 'event' ) {
+			wp_send_json_error( array( 'message' => 'Invalid event' ) );
+		}
+
+		if ( function_exists( 'wcfm_is_vendor' ) && wcfm_is_vendor() ) {
+			$current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
+			if ( $post->post_author != $current_user_id ) {
+				wp_send_json_error( array( 'message' => 'Permission denied' ) );
+			}
+		}
+
+		$deleted = wp_trash_post( $event_id );
+
+		if ( $deleted ) {
+			wp_send_json_success( array( 'message' => 'Event deleted successfully' ) );
+		} else {
+			wp_send_json_error( array( 'message' => 'Failed to delete event' ) );
+		}
+	}
+
+	/**
+	 * Delete work handler
+	 */
+	public function delete_wcfm_work_handler() {
+		$work_id = isset( $_POST['workid'] ) ? absint( $_POST['workid'] ) : 0;
+
+		if ( ! $work_id ) {
+			wp_send_json_error( array( 'message' => 'Invalid work ID' ) );
+		}
+
+		$post = get_post( $work_id );
+		if ( ! $post || $post->post_type !== 'work' ) {
+			wp_send_json_error( array( 'message' => 'Invalid work' ) );
+		}
+
+		if ( function_exists( 'wcfm_is_vendor' ) && wcfm_is_vendor() ) {
+			$current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
+			if ( $post->post_author != $current_user_id ) {
+				wp_send_json_error( array( 'message' => 'Permission denied' ) );
+			}
+		}
+
+		$deleted = wp_trash_post( $work_id );
+
+		if ( $deleted ) {
+			wp_send_json_success( array( 'message' => 'Work deleted successfully' ) );
+		} else {
+			wp_send_json_error( array( 'message' => 'Failed to delete work' ) );
+		}
+	}
+
 
 	/**
 	 * Load styles

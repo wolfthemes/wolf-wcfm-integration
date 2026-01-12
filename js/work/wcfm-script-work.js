@@ -87,15 +87,22 @@ jQuery(document).ready(function($) {
 			}
 		});
 		var data = {
-			action    : 'delete_wcfm_work',
-			workid : item.data('workid')
+			action          : 'delete_wcfm_work',
+			wcfm_ajax_nonce : wcfm_params.wcfm_ajax_nonce,
+			workid          : item.data('workid')
 		}
 		jQuery.ajax({
-			type:		'POST',
+			type: 'POST',
 			url: wcfm_params.ajax_url,
 			data: data,
-			success:	function(response) {
-				if($wcfm_work_table) $wcfm_work_table.ajax.reload();
+			success: function(response) {
+				if($wcfm_work_table) {
+					$wcfm_work_table.ajax.reload();
+				}
+				jQuery('#wcfm-work_wrapper').unblock();
+			},
+			error: function(xhr, status, error) {
+				console.error('Delete error:', error);
 				jQuery('#wcfm-work_wrapper').unblock();
 			}
 		});

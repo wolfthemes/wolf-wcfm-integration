@@ -110,9 +110,10 @@ class WCFM_Event_Controller {
 		$wcfm_event_json_array['recordsTotal']    = absint( $event_count );
 		$wcfm_event_json_array['recordsFiltered'] = absint( $filtered_event_count );
 
+		$wcfm_event_json_arr = array(); // Initialize empty array
+
 		if ( ! empty( $wcfm_event_array ) ) {
 			$index               = 0;
-			$wcfm_event_json_arr = array();
 			foreach ( $wcfm_event_array as $wcfm_event_single ) {
 
 				if ( get_the_post_thumbnail_url( $wcfm_event_single->ID ) ) {

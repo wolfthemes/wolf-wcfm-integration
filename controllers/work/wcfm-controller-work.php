@@ -110,9 +110,10 @@ class WCFM_Work_Controller {
 		$wcfm_work_json_array['recordsTotal']    = absint( $work_count );
 		$wcfm_work_json_array['recordsFiltered'] = absint( $filtered_work_count );
 
+		$wcfm_work_json_arr = array(); // Initialize empty array
+
 		if ( ! empty( $wcfm_work_array ) ) {
 			$index              = 0;
-			$wcfm_work_json_arr = array();
 			foreach ( $wcfm_work_array as $wcfm_work_single ) {
 
 				if ( get_the_post_thumbnail_url( $wcfm_work_single->ID ) ) {

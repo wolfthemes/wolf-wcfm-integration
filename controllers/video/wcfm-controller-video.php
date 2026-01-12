@@ -110,9 +110,10 @@ class WCFM_Video_Controller {
 		$wcfm_video_json_array['recordsTotal']    = absint( $video_count );
 		$wcfm_video_json_array['recordsFiltered'] = absint( $filtered_video_count );
 
+		$wcfm_video_json_arr = array(); // Initialize empty array
+
 		if ( ! empty( $wcfm_video_array ) ) {
 			$index               = 0;
-			$wcfm_video_json_arr = array();
 			foreach ( $wcfm_video_array as $wcfm_video_single ) {
 
 				if ( get_the_post_thumbnail_url( $wcfm_video_single->ID ) ) {

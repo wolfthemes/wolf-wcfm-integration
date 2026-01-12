@@ -2,7 +2,7 @@ $event_cat = '';
 $event_vendor = '';
 
 jQuery(document).ready(function($) {
-	
+
 	$wcfm_event_table = $('#wcfm-event').DataTable( {
 		"processing": true,
 		"serverSide": true,
@@ -19,11 +19,11 @@ jQuery(document).ready(function($) {
             { responsivePriority: 5 },
             { responsivePriority: 3 },
         ],
-        "columnDefs": [ { "targets": 0, "orderable" : false }, 
-            { "targets": 1, "orderable" : false }, 
-            { "targets": 2, "orderable" : false }, 
-            { "targets": 3, "orderable" : false }, 
-            { "targets": 4, "orderable" : false }, 
+        "columnDefs": [ { "targets": 0, "orderable" : false },
+            { "targets": 1, "orderable" : false },
+            { "targets": 2, "orderable" : false },
+            { "targets": 3, "orderable" : false },
+            { "targets": 4, "orderable" : false },
             { "targets": 5, "orderable" : false },
             { "targets": 6, "orderable" : false },
             { "targets": 7, "orderable" : false },
@@ -40,32 +40,32 @@ jQuery(document).ready(function($) {
 				d.event_status   = GetURLParameter( 'event_status' )
 			},
 			"complete" : function ( response ) {
-                
+
                 //console.log( response )
                 //console.log( response.responseText )
-                
+
                 initiateTip();
-				
+
 				// Fire wcfm-event table refresh complete
 				$( document.body ).trigger( 'updated_wcfm-event' );
 			}
 		}
 	} );
-	
+
 	if( $('.dropdown_event_cat').length > 0 ) {
 		$('.dropdown_event_cat').on('change', function() {
 			$event_cat = $('.dropdown_event_cat').val();
 			$wcfm_event_table.ajax.reload();
 		});
 	}
-	
+
 	if( $('#dropdown_vendor').length > 0 ) {
 		$('#dropdown_vendor').on('change', function() {
 			$event_vendor = $('#dropdown_vendor').val();
 			$wcfm_event_table.ajax.reload();
 		}).select2( $wcfm_vendor_select_args );
 	}
-	
+
 	// Delete event
 	$( document.body ).on( 'updated_wcfm-event', function() {
 		$('.wcfm_event_delete').each(function() {
@@ -77,7 +77,7 @@ jQuery(document).ready(function($) {
 			});
 		});
 	});
-	
+
 	function deleteWCFMevent(item) {
 		jQuery('#wcfm-event_wrapper').block({
 			message: null,
@@ -87,31 +87,38 @@ jQuery(document).ready(function($) {
 			}
 		});
 		var data = {
-			action    : 'delete_wcfm_event',
-			eventid : item.data('eventid')
-		}	
+			action          : 'delete_wcfm_event',
+			wcfm_ajax_nonce : wcfm_params.wcfm_ajax_nonce,
+			eventid         : item.data('eventid')
+		}
 		jQuery.ajax({
-			type:		'POST',
+			type: 'POST',
 			url: wcfm_params.ajax_url,
 			data: data,
-			success:	function(response) {
-				if($wcfm_event_table) $wcfm_event_table.ajax.reload();
+			success: function(response) {
+				if($wcfm_event_table) {
+					$wcfm_event_table.ajax.reload();
+				}
+				jQuery('#wcfm-event_wrapper').unblock();
+			},
+			error: function(xhr, status, error) {
+				console.error('Delete error:', error);
 				jQuery('#wcfm-event_wrapper').unblock();
 			}
 		});
 	}
-	
+
 	// Dashboard FIlter
 	if( $('.wcfm_filters_wrap').length > 0 ) {
 		$('.dataTable').before( $('.wcfm_filters_wrap') );
 		$('.wcfm_filters_wrap').css( 'display', 'inline-block' );
 	}
-	
+
 	// Screen Manager
 	$( document.body ).on( 'updated_wcfm-event', function() {
 		$.each(wcfm_event_screen_manage, function( column, column_val ) {
 		  $wcfm_event_table.column(column).visible( false );
 		} );
 	});
-	
+
 } );
