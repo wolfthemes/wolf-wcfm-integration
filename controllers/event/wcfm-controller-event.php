@@ -85,7 +85,7 @@ class WCFM_Event_Controller {
 			$filtered_event_count     = count( $wcfm_filterd_event_array );
 		} else {
 			// Get event Count
-			$wcfm_event_counts = wp_count_posts( 'post' );
+			$wcfm_event_counts = wp_count_posts( 'event' );
 			foreach ( $wcfm_event_counts as $wcfm_event_type => $wcfm_event_count ) {
 				if ( in_array( $wcfm_event_type, array( 'publish', 'draft', 'pending' ) ) ) {
 					$event_count += $wcfm_event_count;

@@ -85,7 +85,7 @@ class WCFM_Work_Controller {
 			$filtered_work_count     = count( $wcfm_filterd_work_array );
 		} else {
 			// Get work Count
-			$wcfm_work_counts = wp_count_posts( 'post' );
+			$wcfm_work_counts = wp_count_posts( 'work' );
 			foreach ( $wcfm_work_counts as $wcfm_work_type => $wcfm_work_count ) {
 				if ( in_array( $wcfm_work_type, array( 'publish', 'draft', 'pending' ) ) ) {
 					$work_count += $wcfm_work_count;

@@ -85,7 +85,7 @@ class WCFM_Video_Controller {
 			$filtered_video_count     = count( $wcfm_filterd_video_array );
 		} else {
 			// Get video Count
-			$wcfm_video_counts = wp_count_posts( 'post' );
+			$wcfm_video_counts = wp_count_posts( 'video' );
 			foreach ( $wcfm_video_counts as $wcfm_video_type => $wcfm_video_count ) {
 				if ( in_array( $wcfm_video_type, array( 'publish', 'draft', 'pending' ) ) ) {
 					$video_count += $wcfm_video_count;
